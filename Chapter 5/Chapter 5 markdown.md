@@ -1,6 +1,6 @@
-## Introduction to R part one
+# Introduction to R part one
 
-**Outlines**
+# <span style="color:pink"> Outlines</span>
 
 1. What / Why R? 
 
