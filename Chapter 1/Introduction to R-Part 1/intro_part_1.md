@@ -116,7 +116,7 @@ Choose the version for your computer and follow installation instructions.
 # <span style="color:pink">RStudio Overview</span>
 
 ```{r, out.width='80%', fig.align='center', echo=FALSE}
-knitr::include_graphics("https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/Rstudio1.png")
+knitr::include_graphics("https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/RStudio1.png")
 ```
 
 ---
