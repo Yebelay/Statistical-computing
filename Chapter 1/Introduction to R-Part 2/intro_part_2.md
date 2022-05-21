@@ -255,7 +255,7 @@ head(gapminder2, n = 2)
 ```{r, out.width = "400px", echo=FALSE, fig.align='center'}
 knitr::include_graphics("img/filter().png")
 ```
-![filter()](https://github.com/Yebelay/Statistical-computing/tree/main/Chapter%201/Introduction%20to%20R-Part%202/img/filter().png)
+![filter()](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%202/img/filter().png)
 
 - There is a set of logical operators in **R** that you can use inside `filter()`:
 
@@ -307,7 +307,7 @@ filter(gapminder2, lifeExp > 80)#<<
 
 - `arrange()` is used to reorder rows of a **d**ata **f**rame (df) according to one of the variables/columns.
 
-![arrange](https://github.com/Yebelay/Statistical-computing/tree/main/Chapter%201/Introduction%20to%20R-Part%202/img/arrange().png)
+![arrange](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%202/img/arrange().png)
 
 - If you pass `arrange()` a character variable, **R** will rearrange the rows in alphabetical order according to values of the variable. 
 
@@ -347,7 +347,7 @@ arrange(gapminder, desc(lifeExp))
 
 **Collapse many values down to a single summary:** <span style="color:red">`summarise()`</span>
 
-![summarise](https://github.com/Yebelay/Statistical-computing/tree/main/Chapter%201/Introduction%20to%20R-Part%202/img/summarise().png)
+![summarise](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%202/img/summarise().png)
 
 - The syntax of summarise() is simple and consistent with the other verbs included in the `dplyr` package.
 
@@ -451,8 +451,7 @@ plot(gapminder_pipe$pop_e6, gapminder_pipe$lifeExp, cex = 0.5, col = "red")
 - Every **cell** is a **single value**
 
 
-![tidyr](https://github.com/Yebelay/Statistical-computing/tree/main/Chapter%201/Introduction%20to%20R-Part%202/img/tidyr.png)
-
+![tidyr](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%202/img/tidyr.png)
 
 The `tidyr` package embraces the **principles of tidy data** and provides the standard key functionalities to organise data values within a dataset.
 
@@ -463,8 +462,7 @@ The `tidyr` package embraces the **principles of tidy data** and provides the st
 
 - To make *wide format* data into *tall format* we have to turn columns into rows using `gather()` function.
 
-
-![gather](https://github.com/Yebelay/Statistical-computing/tree/main/Chapter%201/Introduction%20to%20R-Part%202/img/gather().png)
+![gather](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%202/img/gather().png)
 
 - The tidyr package, provides four functions to change the layout of data set:
 
