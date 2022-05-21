@@ -14,11 +14,15 @@
 <<<<<<< HEAD
 =======
 
+<<<<<<< HEAD
 >>>>>>> 05cbdb7939425ef29ca6ea743768a0f48f45b155
 ![fig1](https://github.com/Yebelay/Statistical-computing/tree/main/Chapter%201/Introduction%20to%20R-Part%202/img/fig1.png)
+=======
+![fig1](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%202/img/fig1.png)
+>>>>>>> 966e707514ece133b74dc559cbc7b725b44f8b10
 
 
-![fig2](https://github.com/Yebelay/Statistical-computing/tree/main/Chapter%201/Introduction%20to%20R-Part%202/img/fig2.png)
+![fig2](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%202/img/fig2.png)
 
 ---
 # What is Tidyverse?
