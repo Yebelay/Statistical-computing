@@ -13,7 +13,7 @@ This repository contains lecture notes for statistical computing for undergradua
 * Introduction to R part 1:
     * [Introduction to R part 1 (Slide)](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/Introduction%20to%20R-Part%201.pdf)
     * [Introduction to R part 1.md](https://github.com/Yebelay/Statistical-computing/edit/main/Chapter%201/Introduction%20to%20R-Part%201/intro_part_1.md)
-   
+    * [md file](https://github.com/Yebelay/Statistical-computing/tree/main/Chapter%201/Introduction%20to%20R-Part%201/intro_part_1.md)
 
 * Introduction to R part 2:
     *  [Introduction to R part 2 (Slide)] ()
