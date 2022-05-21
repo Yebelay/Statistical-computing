@@ -116,7 +116,7 @@ Choose the version for your computer and follow installation instructions.
 # <span style="color:pink">RStudio Overview</span>
 
 
-![Rstudio!]("https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/RStudio1.png")
+![Rstudio!](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/RStudio1.png)
 
 
 ---
@@ -190,16 +190,16 @@ rownames(installed.packages(priority="recommended"))
 
 - **Option 1:** <span style="color:orange">Menu</span>
 
-```{r, fig.align='center', echo=F, out.width='75%'}
-knitr::include_graphics("img/option1.png")
-```
+
+
+![option 1](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/option1.png)
 
 ---
 
 - **Option 2:** <span style="color:orange">Packages Window</span>
-```{r, fig.align='center', echo=F, out.width='40%'}
-knitr::include_graphics("img/option2.png")
-```
+
+
+![option 2](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/option2.png)
 
 - **Option 3:** <span style="color:orange">Code</span>
 
