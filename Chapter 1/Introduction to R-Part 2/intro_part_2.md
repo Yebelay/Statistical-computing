@@ -188,7 +188,7 @@ Now we have the `dplyr` package uploaded, let us learn its verbs.
 
 - **<span style="color:red">select()</span>** uses for **pick variables by their names**
 
-![select](https://github.com/Yebelay/Statistical-computing/tree/main/Chapter%201/Introduction%20to%20R-Part%202/img/select().png)
+![select](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%202/img/select().png)
 
 
 - <span style="color:red">`starts_with("X")`</span> every name that starts with "X".
@@ -236,7 +236,7 @@ but it's less intuitive and often requires more typing.
 
 **Create new variables of existing variables:** <span style="color:red">`mutate()`</span>
 
-![mutate()](https://github.com/Yebelay/Statistical-computing/tree/main/Chapter%201/Introduction%20to%20R-Part%202/img/mutate().png)
+![mutate()](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%202/img/mutate().png)
 
 - It will allow you to add to the data frame `df` a new column, `z`, which is the multiplication of the columns `x` and `y`: `mutate(df, z = x * y)`.
 
