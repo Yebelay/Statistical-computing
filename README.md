@@ -1,6 +1,4 @@
 # Statistical-computing
-Statistical-computing
-============
 
 This page contains a collection of R materials, developed for statistical computing for undergraduate students at Debre Markos University, Ethiopia. 
 
@@ -12,13 +10,12 @@ Relevant handouts/Slides are listed below. Each links to the md file, see the Rm
 
 # Chapter 1: Introduction to R
 
-
 Formats:
-- [.html](Chapter 1/Introduction to R-Part 1/Introduction-to-R-Part-one.html)
-- [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/01-intro-to-R.pdf)
+- [.html]([Chapter 1/Introduction to R-Part 1/Introduction-to-R-Part-one.html](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/Introduction%20to%20R-Part%20one.htlm))
+- [.pdf]()
 - [.Rmd](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/Introduction%20to%20R-Part%20one.Rmd)
 
-* [Introduction to R part 1](Chapter_1/Introduction_to_R-Part_1/Introduction_to _R-Part_1.Rmd) 
+* [Introduction to R part 1.htlm]([Chapter_1/Introduction_to_R-Part_1/Introduction_to _R-Part_1.Rmd](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/Introduction%20to%20R-Part%20one.Rmd)) 
 * 
 * [Introduction to R part 2](tutorials/R_basics_2_data_and_functions.md) 
 
