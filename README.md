@@ -16,7 +16,7 @@ Relevant handouts/Slides are listed below. Each links to the md file, see the Rm
 Formats:
 - [.html](Chapter 1/Introduction to R-Part 1/Introduction-to-R-Part-one.html)
 - [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/01-intro-to-R.pdf)
-- [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/01-intro-to-R.Rmd)
+- [.Rmd](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/Introduction%20to%20R-Part%20one.Rmd)
 
 * [Introduction to R part 1](Chapter_1/Introduction_to_R-Part_1/Introduction_to _R-Part_1.Rmd) 
 * 
