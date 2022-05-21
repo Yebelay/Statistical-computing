@@ -12,6 +12,7 @@ Relevant handouts/Slides are listed below. Each links to the md file, see the Rm
 
 # Chapter 1: Introduction to R
 
-* [Introduction to R part 1](Statistical-computing/Chapter 1/Introduction to R-Part 1/Introduction to R-Part 1.rmd) 
+* [Introduction to R part 1](Statistical-computing/Chapter 1/Introduction to R-Part 1/Introduction to R-Part 1.Rmd) 
+* 
 * [Introduction to R part 2](tutorials/R_basics_2_data_and_functions.md) ([practise template](practise/R_basics_2_data_and_functions_practise.Rmd))============
 
