@@ -108,9 +108,6 @@ Choose the version for your computer and follow installation instructions.
 # <span style="color:pink">RStudio Overview</span>
 ![Rstudio](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/RStudio1.png)
 
-![Rstudio!](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/RStudio1.png)
-
-
 ---
 
 # <span style="color:pink">Getting Started</span>
