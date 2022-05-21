@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introduction to R-Part 1</title>
+    <meta charset="utf-8" />
+    <meta name="date" content="2022-05-21" />
+    <script src="Introduction-to-R-Part-one_files/header-attrs/header-attrs.js"></script>
+    <link href="Introduction-to-R-Part-one_files/remark-css/default.css" rel="stylesheet" />
+    <link href="Introduction-to-R-Part-one_files/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="Introduction-to-R-Part-one_files/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# <p><span style="color:pink">Introduction to R-Part 1</span></p>
+]
+.subtitle[
+## Overview of R and RStudio
+]
+.author[
+### <p>Yebelay Berehan</p>
+]
+.institute[
+### <p><a href="yebelay.ma@gmail.com"><span style="color:cyan">yebelay.ma@gmail.com</span></a></p>
+]
+.date[
+### 2022-05-21
+]
+
+---
+
+
+
+
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 90px;
+height: 85px;
+z-index: 0;
+background-image: url(img/Rlogo.png);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+top:1em;right:1em;
+}
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.title-slide):not(.inverse):not(.hide_logo)')
+        .forEach(function (slide) {
+          const logo = document.createElement('div')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = null
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
+
+
+
+# &lt;span style="color:pink"&gt; Outlines&lt;/span&gt;
+
+1. What / Why R? 
+
+2. Rstudio &amp; R
+
+   a. The Source, Console, Help and Environment panes
+
+   b. Functions and Data Objects
+
+3. Working with R: Objects and Workspace
+
+   a. R Objects &amp; Project Management
+
+   b. Good Coding practice
+   
+---
+
+# &lt;span style="color:pink"&gt;1. What is R?&lt;/span&gt;
+
+* Computer language &amp; environment for statistical computing &amp; graphics. 
+
+
+* Script based (text computer code), &lt;span style="color:red"&gt;not GUI based (menu / point &amp; click).&lt;/span&gt;
+
+
+* Tools for Data Handling and manipulation
+
+
+* Large collection of statistical tools (packages) for Data Analysis;
+ 
+   + .red[contributed by many experts]
+
+
+* Graphical interface for Visualizing Data &amp; results from statistical analyses
+
+
+* Relatively simple and effective, widely used, 
+   + **free, open source**.
+
+---
+
+# &lt;span style="color:pink"&gt; Why R?&lt;/span&gt;
+
+
+-	Open source (free!): 
+
+   + open for anyone to review and contribute.
+
+
+-	Maintained by &lt;span style="color:blueviolet"&gt;top quality experts&lt;/span&gt;
+
+
+-	Built for statistical analysis 
+
+
+-	&lt;span style="color:blueviolet"&gt;Reproducible and transparent:&lt;/span&gt; 
+
+   + Saved R code can be used to easily reproduce any analysis and Collaborators can share their work in the R script format.
+
+-	&lt;span style="color:blueviolet"&gt;Publication-ready data visualization&lt;/span&gt; 
+
+-	Software compatibility
+
+
+-	&lt;span style="color:blueviolet"&gt;Generating reports in various formats (MS word, PDF)&lt;/span&gt;
+
+---
+
+# &lt;span style="color:pink"&gt;2. RStudio&lt;/span&gt;
+
+### What is RStudio? Why use it?
+
+-	Best Integrated Development Environment (IDE) for R.
+
+- &lt;span style="color:darkred"&gt;Powerful and makes using R easier&lt;/span&gt;
+
+- RStudio can:
+
+  - &lt;span style="color:blue"&gt;Organize your code, output, and plots.&lt;/span&gt;
+
+  - &lt;span style="color:blue"&gt;Auto-complete code and highlight syntax.&lt;/span&gt;
+
+  - &lt;span style="color:blue"&gt;Help view data and objects.&lt;/span&gt;
+
+  - &lt;span style="color:blue"&gt;Enable easy integration of R code into documents.&lt;/span&gt;
+
+-	&lt;span style="color:darkred"&gt;User-friendly interfaces.&lt;/span&gt;
+
+---
+
+# &lt;span style="color:pink"&gt;Basic Setup&lt;/span&gt;
+
+### Installing R
+
+- Visit &lt;https://cran.r-project.org/&gt;
+
+- Or simply google [download R](https://cran.r-project.org/bin/windows/base/) to find the link to download page.
+
+- Also, check out **Install R** tutorial video by RStudio, Inc.
+
+### Installing RStudio
+
+- Visit &lt;https://www.rstudio.com/products/rstudio/download/&gt;
+
+- Or simply google [download Rstudio](https://www.rstudio.com/products/rstudio/download/) to find the link to download page.
+
+-	Also, check out **Install RStudio** tutorial video by RStudio, Inc.
+
+Choose the version for your computer and follow installation instructions. 
+
+---
+
+# &lt;span style="color:pink"&gt;RStudio Overview&lt;/span&gt;
+
+&lt;img src="img/Rstudio1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# &lt;span style="color:pink"&gt;Getting Started&lt;/span&gt;
+
+- RStudio will open with 4 sections (called panes): 
+
+**&lt;span style="color:cyan"&gt;1. Source editor pane&lt;/span&gt;**
+- Write and edit R scripts
+
+**&lt;span style="color:cyan"&gt;2. Console pane&lt;/span&gt;**
+- Interactively run R commands
+
+**&lt;span style="color:cyan"&gt;3. Environment/history pane&lt;/span&gt;**
+- &lt;span style="color:orange"&gt;Environment:&lt;/span&gt; view objects in the global environment
+- &lt;span style="color:orange"&gt;History:&lt;/span&gt; search and view command history
+
+**&lt;span style="color:cyan"&gt;4. Files/Plots/Packages/Help pane &lt;/span&gt;**
+- &lt;span style="color:orange"&gt;Files:&lt;/span&gt; navigate directories
+- &lt;span style="color:orange"&gt;Plots:&lt;/span&gt; view generated plots
+- &lt;span style="color:orange"&gt;Packages:&lt;/span&gt; manage installed packages in the library
+- &lt;span style="color:orange"&gt;Help:&lt;/span&gt; view help documentations for any package/function
+
+---
+
+# &lt;span style="color:pink"&gt;Customization&lt;/span&gt;
+
+### Panes
+
+- The size and position of panes can be customized. 
+
+- On the top right of each pane, there are buttons to adjust the pane size. 
+
+- Also, place your mouse pointer/cursor on the border line between panes and when the pointer changes its shape, click and drag to adjust the pane size. 
+
+- For more options, go to **&lt;span style="color:green"&gt;View &gt; Panes&lt;/span&gt;** on the menu bar. 
+
+- Alternatively, try **&lt;span style="color:green"&gt;Tools &gt; Global Options &gt; Pane Layout&lt;/span&gt;**.
+
+### Appearances
+
+- The overall appearance can be customized as well. 
+
+- Go to **&lt;span style="color:green"&gt;Tools &gt; Global options &gt; Appearnce&lt;/span&gt;** on the menu bar to change themes, fonts, and more.
+
+---
+
+# &lt;span style="color:pink"&gt;Installing and Loading Packages&lt;/span&gt;
+
+- Packages are collections of R functions, data, and compiled code in a well-defined format. 
+- There are three categories of packages. 
+
+**&lt;span style="color:blue"&gt;1. Base Packages:&lt;/span&gt;** Providing the basic functionality, maintained by the R Core Development group. Currently, there are 14 packages, these are 
+
+```r
+rownames(installed.packages(priority="base"))
+```
+
+```
+##  [1] "base"      "compiler"  "datasets"  "graphics"  "grDevices" "grid"     
+##  [7] "methods"   "parallel"  "splines"   "stats"     "stats4"    "tcltk"    
+## [13] "tools"     "utils"
+```
+
+**&lt;span style="color:blue"&gt;2. Recommended Packages:&lt;/span&gt;** also a default package, mainly include additional more complex statistical procedures. These are 15 packages
+
+```r
+rownames(installed.packages(priority="recommended"))
+```
+
+```
+##  [1] "boot"       "class"      "cluster"    "codetools"  "foreign"   
+##  [6] "KernSmooth" "lattice"    "MASS"       "Matrix"     "mgcv"      
+## [11] "nlme"       "nnet"       "rpart"      "spatial"    "survival"
+```
+---
+
+**&lt;span style="color:blue"&gt;3. Contributed packages:&lt;/span&gt;** Due to the open nature of R, anyone can contribute new packages at any time. 
+
+- Currently, the CRAN package repository features &lt;span style="color:red"&gt;19022 available packages&lt;/span&gt;.
+
+
+### Installing Packages
+
+- **Option 1:** &lt;span style="color:orange"&gt;Menu&lt;/span&gt;
+
+&lt;img src="img/option1.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+
+- **Option 2:** &lt;span style="color:orange"&gt;Packages Window&lt;/span&gt;
+&lt;img src="img/option2.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+- **Option 3:** &lt;span style="color:orange"&gt;Code&lt;/span&gt;
+
+
+```r
+install.packages("readxl") 
+```
+
+### Loading Packages
+
+
+```r
+library()   # see all packages installed
+search()    # see packages currently loaded
+```
+
+---
+
+# &lt;span style="color:pink"&gt;Updating R and RStudio&lt;/span&gt;
+
+### Updating R
+
+- Go to CRAN and download new version
+
+- **More efficient:** install `installr` package, load it, and run `updateR()`
+
+  - Updates R and Optionally updates all packages
+  - **&lt;span style="color:darkviolet"&gt;May be better to do this in `basic Rgui`&lt;/span&gt;**
+- Version should update automatically in RStudio
+
+  - Check/change R version under **&lt;span style="color:green"&gt;Tools&gt;Global Options&gt;R version&lt;/span&gt;**
+
+- Then update the R packages with the code:
+
+
+```r
+update.packages(ask = FALSE, checkBuilt = TRUE)
+```
+
+- To updating RStudio: Go to RStudio and download new version
+
+- Click on &lt;span style="color:green"&gt;Help&gt;Check for Updates&lt;/span&gt;, follow menu prompts
+
+---
+
+# &lt;span style="color:pink"&gt;Functions and Help&lt;/span&gt;
+
+- Information about a function `read.table` can be accessed by typing the following into the console:
+
+
+```r
+ help(read.table) # help about function read.table
+ ?read.table # same thing
+ help.start() # general help
+ example("read.table") # show an example of function read.table
+ Sys.Date()
+```
+
+- Arguments are the inputs to a function. 
+
+- In this case, the only argument to `help()` is `read.table`. 
+
+- Help files provide documentation on how to use functions and what functions produce.
+
+---
+
+# &lt;span style="color:pink"&gt;3. Working with R Objects &lt;/span&gt;
+
+**Organize with an RStudio project**
+
+* It is a good habit to immediately create a project for handling the analysis of new data and keep everything together. 
+ 
+- The workspace is a working environment where R will store and remember user-defined objects: **vectors, matrices, data frames, lists, variables** etc. 
+
+- To Create an R project, go to
+
+- **File &gt; New Project and then choose: New Directory&gt; Name for the directory &gt; Click on Create Project**
+
+- For more complex project it may be useful to create sub-directories to contain
+data, scripts and other documents separately. 
+
+- Can also type the below function into the Console, but we won't do that in this session.
+
+```{}
+prodigenr::setup_project("C:/Users/yebel/Desktop/LearningR")
+```
+
+---
+
+# &lt;span style="color:pink"&gt;Creating R objects&lt;/span&gt;
+
+- Objects can be created in the form of
+   - `variable &lt;- value`  or `variable = value` or `variable -&gt; value`.
+   - Variable names can be letters, numbers, and the dot or underline characters but not dot followed by numbers `.4you `is illegal).
+   
+- the symbol `&lt;-` (`Alt + -`) that could be read as `assign` or `place into` or `read in` etc. 
+
+
+```r
+# need to placed in quotes as diabetic is string.
+*A &lt;-"Diabetic"
+```
+
+- The standard data objects in R are: **scalars, vectors, factors, matrices and arrays, lists, and data frames**.
+
+- Data types assigned to each objects are: **logical, numeric, integer, character, complex.**
+
+---
+
+# &lt;span style="color:pink"&gt;Vector&lt;/span&gt;
+
+- A set of scalars arranged in a one-dimensional array.
+
+- Data values are all the same mode(data type), but can hold any mode.
+   - e.g:(-2, 3.4, 3), (TRUE, FALSE, TRUE), ("blue", "gray", "red")
+   
+- Vectors can be created using the following functions:
+
+- `c()` function to combine individual values
+   - `x &lt;- c(10.4, 5.6, 3.1, 6.4, 21.7)`
+
+- `seq()` to create more complex sequences
+   - `seq(from=1, to=10, by=2) or seq(1,10 )` 
+
+- `rep()` to create replicates of values
+   - `rep(1:4, times=2, each=2)`
+   
+---
+
+# &lt;span style="color:pink"&gt;Some useful functions in vector&lt;/span&gt;
+
+- `class(x):` returns class/type of vector x
+
+- `length(x):` returns the total number of elements
+
+- `x[length(x)]:` returns last value of vector x 
+
+- `rev(x):` returns reversed vector
+
+- `sort(x):` returns sorted vector
+
+- `unique(x):` returns vector without multiple elements
+
+- `range(x):` Range of x
+
+- `quantile(x):` Quantiles of x for the given probabilities
+
+- `which.max(x):`  index of maximum
+
+- `which.min(x):`  index of minimum
+
+---
+
+# &lt;span style="color:pink"&gt;Factors&lt;/span&gt;
+
+- A factor is used to store predefined categorical data
+
+- Can be ordered and unordered
+  - e.g. :("yes", "no", "no", "yes", "yes"), ("male", "female", "female", "male")
+
+- Factors can be created using `factor()`
+
+
+```r
+size &lt;- factor(c("small", "large", "small", "medium"))
+```
+
+- The levels of a factor can be displayed using `levels()`.
+
+---
+
+# &lt;span style="color:pink"&gt;Matrix&lt;/span&gt;
+
+- Matrix is a rectangular array arranged in rows and columns. 
+
+- The individual items in a matrix are called its elements or entries. 
+
+- Matrices can be created by:
+
+1. `matrix()`
+
+2. converting a vector into a matrix
+
+3. binding together vectors
+
+- Matrices can be created using the functions:
+   - `matrix()` creates a matrix by specifying rows and columns
+   - `dim()` sets dimensions to a vector
+   - `cbind` combines columns
+   - `rbind` combines rows 
+
+---
+
+ e.g.
+
+```r
+m1&lt;-matrix(data = 1:6, nrow = 3, ncol = 2)
+m2&lt;-cbind(1:3,5:7,10:12)
+x=1:6
+dim(x) &lt;- c(2, 3)
+```
+
+- Note: `dim()` can also be used to retrieve dimensions of an object! 
+
+**Assign names to rows and columns of a matrix**
+
+
+```r
+rownames(m1) &lt;- c("A", "B", "C") 
+colnames(m1)&lt;- c("a","b")
+```
+
+---
+
+# &lt;span style="color:pink"&gt;Data frames&lt;/span&gt;
+
+- a data set in R is stored a data frame.
+
+- Two-dimensional, arranged in rows and columns created using the function:  `data.frame()`
+- e.g.
+
+```r
+df &lt;- data.frame(ID = 1:3, Sex = c("F", "F", "M"), Age = c(17, 18,18))
+```
+
+- We can enter data directly by access the editor using either the `edit()` or `fix()`
+
+
+```r
+ new.data&lt;-data.frame()  # creates an "empty" data frame
+ new.data&lt;-edit(new.data) # request the changes or  `fix(new.data)`
+```
+
+- We'll use the data set called **diabetes data** to do this exploration. 
+
+
+```r
+library(readr)
+diabetes &lt;- read_csv("diabetes.csv")
+#View(diabetes)
+```
+---
+
+# &lt;span style="color:pink"&gt;Quick intro to functions&lt;/span&gt;
+
+
+- Use `head()` and `tail()` to view the **first (and last) five rows**
+
+- Use `View()` to **view an entire** `data.table` object
+
+- Use `str()` to view the **structure** of `data.table` object
+
+- Use `tables()` to **show all loaded `data.table` objects**
+
+- **Sorting** and **ordering** rows using `setorder()` and `order()`
+
+- Arguments are always enclosed in parentheses
+
+- `colnames()` to look variable names
+
+- `colSums(is.na())` to sum missing data
+
+- Use `subset()` to subset data.
+
+- Functions in R take named arguments.  
+
+---
+
+# &lt;span style="color:pink"&gt;Subsetting&lt;/span&gt;
+
+
+```r
+diabetes[] # the whole data frame 
+diabetes[1, 1] # 1st element in 1st column 
+diabetes[1, 6] # 1st element in the 6th column 
+diabetes[, 1] # first column in the data frame 
+diabetes[1] # first column in the data frame 
+diabetes[1:3, 3] 
+diabetes[3, ] # the 3rd row 
+diabetes[1:6, ] # the 1st to 6th rows
+diabetes[c(1,4), ] # rows 1 and 4 only 
+diabetes[c(1,4), c(1,3) ] 
+diabetes[, -1] # the whole except first column
+```
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"highlightLanguage": "r",
+"ratio": "14:9",
+"highlightSpans": true,
+"highlightStyle": "tomorrow-night-bright"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
