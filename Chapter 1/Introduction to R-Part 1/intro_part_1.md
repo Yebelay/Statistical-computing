@@ -18,21 +18,17 @@
    
 ---
 
-# <span style="color:pink">1. What is R?</span>
+#  What is R?
 
 * Computer language & environment for statistical computing & graphics. 
 
-
-* Script based (text computer code), <span style="color:red">not GUI based (menu / point & click).</span>
-
+* Script based (text computer code), not GUI based (menu / point & click).
 
 * Tools for Data Handling and manipulation
-
 
 * Large collection of statistical tools (packages) for Data Analysis;
  
    + .red[contributed by many experts]
-
 
 * Graphical interface for Visualizing Data & results from statistical analyses
 
@@ -42,21 +38,17 @@
 
 ---
 
-# <span style="color:pink"> Why R?</span>
-
+#  Why R?
 
 -	Open source (free!): 
 
    + open for anyone to review and contribute.
 
-
--	Maintained by <span style="color:blueviolet">top quality experts</span>
-
+-	Maintained by top quality experts
 
 -	Built for statistical analysis 
 
-
--	<span style="color:blueviolet">Reproducible and transparent:</span> 
+-	Reproducible and transparent:
 
    + Saved R code can be used to easily reproduce any analysis and Collaborators can share their work in the R script format.
 
@@ -114,7 +106,7 @@ Choose the version for your computer and follow installation instructions.
 ---
 
 # <span style="color:pink">RStudio Overview</span>
-
+![Rstudio](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/RStudio1.png)
 
 ![Rstudio!](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/RStudio1.png)
 
