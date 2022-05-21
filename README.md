@@ -18,7 +18,7 @@ Formats:
 - [.pdf](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/01-intro-to-R.pdf)
 - [.Rmd](https://raw.githack.com/worldbank/dime-r-training/master/Presentations/01-intro-to-R.Rmd)
 
-* [Introduction to R part 1](Chapter 1/Introduction to R-Part 1/Introduction to R-Part 1.Rmd) 
+* [Introduction to R part 1](Chapter_1/Introduction_to_R-Part_1/Introduction_to _R-Part_1.Rmd) 
 * 
 * [Introduction to R part 2](tutorials/R_basics_2_data_and_functions.md) 
 
