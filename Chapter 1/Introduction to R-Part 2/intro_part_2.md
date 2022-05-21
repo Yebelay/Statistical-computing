@@ -11,15 +11,12 @@
 
 # Data Manipulation
 
-.pull-left[
 
 ![fig1](https://github.com/Yebelay/Statistical-computing/tree/main/Chapter%201/Introduction%20to%20R-Part%202/img/fig1.png)
-]
 
-.pull-right[
 
 ![fig2](https://github.com/Yebelay/Statistical-computing/tree/main/Chapter%201/Introduction%20to%20R-Part%202/img/fig2.png)
-]
+
 ---
 # What is Tidyverse?
 
@@ -48,8 +45,8 @@ library(tidyverse) #<<
 
 # install.packages("tidyverse")
 
-.pull-left[
-Core tidyverse
+
+**Core tidyverse**
 - `tibble`, for tibbles, a modern re-imagining of data frames
 - `readr`, for data import
 - `tidyr`, for data tidying
@@ -58,10 +55,8 @@ Core tidyverse
 - `stringr`, for strings
 - `forcats`, for factors
 - `purrr`, for functional programming
-]
 
-.pull-right[
-Friends for data import (beyond readr)
+**Friends for data import (beyond readr)**
 - `readxl`, for xls and xlsx files
 - `haven`, for SPSS, SAS, and Stata files
 - `jsonlite`, for JSON
@@ -69,20 +64,15 @@ Friends for data import (beyond readr)
 - `httr`, for web apis
 - `rvest`, for web scraping
 - `DBI`, for databases
-]
 
-.pull-left[
-Friends for data wrangling for date
+**Friends for data wrangling for date**
 - `lubridate`, for date/times
 - `hms`, for times
 - `blob`, for storing binary data
-]
-.pull-right[
-Friends for modeling
+
+**Friends for modeling**
 - `modelr`, for simple modelling within a pipeline 
 - `broom`, for turning models into tidy data
-]
-
 ---
 
 # readr()
