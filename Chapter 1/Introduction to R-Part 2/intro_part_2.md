@@ -11,12 +11,8 @@
 
 # Data Manipulation
 
-.pull-left[
-
 ![fig1](https://github.com/Yebelay/Statistical-computing/tree/main/Chapter%201/Introduction%20to%20R-Part%202/img/fig1.png)
-]
 
-.pull-right[
 
 ![fig2](https://github.com/Yebelay/Statistical-computing/tree/main/Chapter%201/Introduction%20to%20R-Part%202/img/fig2.png)
 ]
