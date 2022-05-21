@@ -15,7 +15,7 @@
 ![fig1](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%202/img/fig1.png)
 
 
-![fig2](https://github.com/Yebelay/Statistical-computing/tree/main/Chapter%201/Introduction%20to%20R-Part%202/img/fig2.png)
+![fig2](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%202/img/fig2.png)
 
 ---
 # What is Tidyverse?
