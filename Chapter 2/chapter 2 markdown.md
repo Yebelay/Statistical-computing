@@ -1,469 +1,402 @@
-# Introduction to R part one
+# Control Statements and Programming with functions
 
-# <span style="color:pink"> Outlines</span>
 
-1. What / Why R? 
+```{r xaringan-logo, echo=FALSE}
+xaringanExtra::use_logo(image_url = "Rlogo.png",   width = "90px",height = "85px")
+```
+## Outlines
 
-2. Rstudio & R
+2.1. Conditional and Repetitive executions
 
-   a. The Source, Console, Help and Environment panes
+2.1.1. if statements
 
-   b. Functions and Data Objects
+2.1.2. for, while, and repeat loops
 
-3. Working with R: Objects and Workspace
+2.2. Function definition
 
-   a. R Objects & Project Management
 
-   b. Good Coding practice
-   
+## Bad Repetition
+
+- If someone doesn't know better, they might find the means of variables in the swiss data by typing in a line of code for each column:
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+mean1 <- mean(swiss$Fertility)
+mean2 <- mean(swiss$Agriculture)
+mean3 <- mean(swissExamination)
+mean4 <- mean(swiss$Fertility)
+mean5 <- mean(swiss$Catholic)
+mean5 <- mean(swiss$Infant.Mortality)
+c(mean1, mean2 mean3, mean4, mean5, man6)#<<
+```
+
+**Can you spot the problems?**
+
+How upset would they be if the swiss data had 200 columns instead of 6?
+
+
+
+## Good Repetition
+
+```{r}
+swiss_means <- setNames(numeric(ncol(swiss)), colnames(swiss))
+for(i in seq_along(swiss)) {
+    swiss_means[i] <- mean(swiss[[i]])
+}
+swiss_means
+```
+
+- 'setNames()' adds `names` (second argument) to its first argument.
+- `numeric()` creates a numeric vector of length equal to its first argument.
+
+**What is the use Repetition**
+
+- Writing code to repeat tasks for us reduces the most common human coding mistakes.
+
+- It also substantially reduces the time and effort involved in processing large volumes of data.
+
+- Lastly, compact code is more readable and easier to troubleshoot.
+
+
+## Conditional Flow
+
+**`if()` then `else`**
+
+- You've seen `ifelse()` before for logical checks on a whole vector.
+
+- For checking whether a single logical statement holds and then conditionally executing a set of actions, use `if()` and `else:`
+
+```{r, eval=FALSE}
+for(i in 1:10) {
+  if(i %% 2 == 0) { # %% gets remainder after division
+    print(paste0("The number ", i, " is even."))
+  } else if(i %% 3 == 0) {
+    print(paste0("The number ", i, " is divisible by 3."))
+  } else {
+    print(paste0("The number ", i, " is not divisible by 2 or 3."))
+  }
+}
+
+```
+
+- Warning! else needs to be on same line as the closing brace `}` of previous `if()`.
+
+
+## The for() Loop
+
+- `for()` loops are the most general kind of loop, found in pretty much every programming language.
+
+- For each of these values—in order—do this
+
+*Conceptually:*
+
+- Given a set of values...
+
+1. You set an index variable (often `i`) equal to the first value
+
+1. Do some set of things (usually depending on current value)
+
+1. Is there a next value?
+
+   - `YES:` Update to next value, go back to 2.
+   - `NO:` Exit loop
+
+- We are looping through values and repeating some actions.
+
+
+## for() Loop: Diagram
+
+![loop](forloop.png)
+
+
+- `for()` Loop: Example
+```{r, eval=FALSE}
+for(i in 1:10) {
+    # inside for, output won't show up without print()
+    print(i^2) 
+}
+```
+
+- Note this runs 10 separate print commands, which is why each line starts with [1].
+
+- These Do the Same Thing
+.pull-left[
+```{r}
+for(i in 1:3) {
+    print(i^2) 
+}
+```
+]
+.pull-right[
+```{r, eval=FALSE}
+i <- 1
+print(i^2) 
+i <- 2
+print(i^2)
+i <- 3
+print(i^2)
+```
+]
+
+
+## Iteration Conventions
+
+- We call what happens in the loop for a particular value one iteration.
+- Iterating over indices `1:n` is very common.
+
+- `n` might be the length of a vector, the number of rows or columns in a matrix or data frame, or the length of a list.
+- **Common notation:** `i` is the object that holds the current value inside the loop.
+
+- If loops are nested, you will often see `j` and `k` used for the inner loops.
+
+- This notation is similar to indexing in mathematical symbols (e.g  $\sum_{i=1}^n)$
+
+- Note `i` (and `j`,`k`, etc) are just normal objects. You can use any other names you want.
+
+
+## Iterate Over Characters
+
+- What we iterate over doesn't have to be numbers `1:n` or numbers at all! You can also iterate over a character vector in R:
+
+```{r}
+some_letters <- letters[4:6] # Vector of letters d,e,f
+for(i in some_letters) {
+    print(i)
+}
+i # in R, this will exist outside of the loop!
+
+```
+
+
+## `seq_along()` and Messages
+
+- `seq_along(x)` creates an integer vector equal to `1:length(x)`.
+
+- When you want to loop over something that isn't numeric but want to use a numeric index of where you are in the loop, `seq_along` is useful:
+
+```{r}
+for(a in seq_along(some_letters)) {
+    print(paste0("Letter ", a, ": ", some_letters[a]))
+}
+a # The object a contains the number of the last iteration
+```
+
 ---
 
-#  What is R?
+## `while()` Loops
 
-* Computer language & environment for statistical computing & graphics. 
+- A lesser-used looping structure is the `while()` loop.
 
-* Script based (text computer code), not GUI based (menu / point & click).
+- Rather than iterating over a predefined vector, the loop keeps going until some condition is no longer true.
 
-* Tools for Data Handling and manipulation
+- Let's see how many times we need to flip a coin to get `4` heads:
 
-* Large collection of statistical tools (packages) for Data Analysis;
+```{r}
+num_heads <- 0
+num_flips <- 0
+while(num_heads < 4) {
+  coin_flip <- rbinom(n = 1, size = 1, prob = 0.5)
+  if (coin_flip == 1) { num_heads <- num_heads + 1 }
+  num_flips <- num_flips + 1
+}
+num_flips # follows negative binomial distribution
+```
+
+---
+
+# Writing Functions
+
+### Why Write Your Own Functions?
+
+- Functions can encapsulate actions you might perform often, such as:
  
-   + .red[contributed by many experts]
+  - Given a vector, compute some special summary stats
 
-* Graphical interface for Visualizing Data & results from statistical analyses
+  - Given a vector and definition of `invalid` values, replace with NA
 
+  - Templates for favorite ggplots used in reports
 
-* Relatively simple and effective, widely used, 
-   + **free, open source**.
-
----
-
-#  Why R?
-
--	Open source (free!): 
-
-   + open for anyone to review and contribute.
-
--	Maintained by top quality experts
-
--	Built for statistical analysis 
-
--	Reproducible and transparent:
-
-   + Saved R code can be used to easily reproduce any analysis and Collaborators can share their work in the R script format.
-
--	<span style="color:blueviolet">Publication-ready data visualization</span> 
-
--	Software compatibility
-
-
--	<span style="color:blueviolet">Generating reports in various formats (MS word, PDF)</span>
+  - Defining a new logical operator
 
 ---
 
-# <span style="color:pink">2. RStudio</span>
+## Creating functions
 
-### What is RStudio? Why use it?
-
--	Best Integrated Development Environment (IDE) for R.
-
-- <span style="color:darkred">Powerful and makes using R easier</span>
-
-- RStudio can:
-
-  - <span style="color:blue">Organize your code, output, and plots.</span>
-
-  - <span style="color:blue">Auto-complete code and highlight syntax.</span>
-
-  - <span style="color:blue">Help view data and objects.</span>
-
-  - <span style="color:blue">Enable easy integration of R code into documents.</span>
-
--	<span style="color:darkred">User-friendly interfaces.</span>
-
----
-
-# <span style="color:pink">Basic Setup</span>
-
-### Installing R
-
-- Visit <https://cran.r-project.org/>
-
-- Or simply google [download R](https://cran.r-project.org/bin/windows/base/) to find the link to download page.
-
-- Also, check out **Install R** tutorial video by RStudio, Inc.
-
-### Installing RStudio
-
-- Visit <https://www.rstudio.com/products/rstudio/download/>
-
-- Or simply google [download Rstudio](https://www.rstudio.com/products/rstudio/download/) to find the link to download page.
-
--	Also, check out **Install RStudio** tutorial video by RStudio, Inc.
-
-Choose the version for your computer and follow installation instructions. 
-
----
-
-# <span style="color:pink">RStudio Overview</span>
-![Rstudio](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/RStudio1.png)
-
-![Rstudio!](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/RStudio1.png)
-
-
----
-
-# <span style="color:pink">Getting Started</span>
-
-- RStudio will open with 4 sections (called panes): 
-
-**<span style="color:cyan">1. Source editor pane</span>**
-- Write and edit R scripts
-
-**<span style="color:cyan">2. Console pane</span>**
-- Interactively run R commands
-
-**<span style="color:cyan">3. Environment/history pane</span>**
-- <span style="color:orange">Environment:</span> view objects in the global environment
-- <span style="color:orange">History:</span> search and view command history
-
-**<span style="color:cyan">4. Files/Plots/Packages/Help pane </span>**
-- <span style="color:orange">Files:</span> navigate directories
-- <span style="color:orange">Plots:</span> view generated plots
-- <span style="color:orange">Packages:</span> manage installed packages in the library
-- <span style="color:orange">Help:</span> view help documentations for any package/function
-
----
-
-# <span style="color:pink">Customization</span>
-
-### Panes
-
-- The size and position of panes can be customized. 
-
-- On the top right of each pane, there are buttons to adjust the pane size. 
-
-- Also, place your mouse pointer/cursor on the border line between panes and when the pointer changes its shape, click and drag to adjust the pane size. 
-
-- For more options, go to **<span style="color:green">View > Panes</span>** on the menu bar. 
-
-- Alternatively, try **<span style="color:green">Tools > Global Options > Pane Layout</span>**.
-
-### Appearances
-
-- The overall appearance can be customized as well. 
-
-- Go to **<span style="color:green">Tools > Global options > Appearnce</span>** on the menu bar to change themes, fonts, and more.
-
----
-
-# <span style="color:pink">Installing and Loading Packages</span>
-
-- Packages are collections of R functions, data, and compiled code in a well-defined format. 
-- There are three categories of packages. 
-
-**<span style="color:blue">1. Base Packages:</span>** Providing the basic functionality, maintained by the R Core Development group. Currently, there are 14 packages, these are 
-```{r}
-rownames(installed.packages(priority="base"))
-```
-
-**<span style="color:blue">2. Recommended Packages:</span>** also a default package, mainly include additional more complex statistical procedures. These are 15 packages
-```{r}
-rownames(installed.packages(priority="recommended"))
-```
----
-
-**<span style="color:blue">3. Contributed packages:</span>** Due to the open nature of R, anyone can contribute new packages at any time. 
-
-- Currently, the CRAN package repository features <span style="color:red">19022 available packages</span>.
-
-
-### Installing Packages
-
-- **Option 1:** <span style="color:orange">Menu</span>
-
-
-
-![option 1](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/option1.png)
-
----
-
-- **Option 2:** <span style="color:orange">Packages Window</span>
-
-
-![option 2](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/option2.png)
-
-- **Option 3:** <span style="color:orange">Code</span>
-
-```{r, eval=FALSE}
-install.packages("readxl") 
-```
-
-### Loading Packages
-
-```{r, eval=FALSE}
-library()   # see all packages installed
-search()    # see packages currently loaded
-```
-
----
-
-# <span style="color:pink">Updating R and RStudio</span>
-
-### Updating R
-
-- Go to CRAN and download new version
-
-- **More efficient:** install `installr` package, load it, and run `updateR()`
-
-  - Updates R and Optionally updates all packages
-  - **<span style="color:darkviolet">May be better to do this in `basic Rgui`</span>**
-- Version should update automatically in RStudio
-
-  - Check/change R version under **<span style="color:green">Tools>Global Options>R version</span>**
-
-- Then update the R packages with the code:
-
-```{r, eval=FALSE}
-update.packages(ask = FALSE, checkBuilt = TRUE)
-```
-
-- To updating RStudio: Go to RStudio and download new version
-
-- Click on <span style="color:green">Help>Check for Updates</span>, follow menu prompts
-
----
-
-# <span style="color:pink">Functions and Help</span>
-
-- Information about a function `read.table` can be accessed by typing the following into the console:
-
-```{r, message=FALSE, warning=FALSE, eval=FALSE}
-
- help(read.table) # help about function read.table
- ?read.table # same thing
- help.start() # general help
- example("read.table") # show an example of function read.table
- Sys.Date()
-```
-
-- Arguments are the inputs to a function. 
-
-- In this case, the only argument to `help()` is `read.table`. 
-
-- Help files provide documentation on how to use functions and what functions produce.
-
----
-
-# <span style="color:pink">3. Working with R Objects </span>
-
-**Organize with an RStudio project**
-
-* It is a good habit to immediately create a project for handling the analysis of new data and keep everything together. 
- 
-- The workspace is a working environment where R will store and remember user-defined objects: **vectors, matrices, data frames, lists, variables** etc. 
-
-- To Create an R project, go to
-
-- **File > New Project and then choose: New Directory> Name for the directory > Click on Create Project**
-
-- For more complex project it may be useful to create sub-directories to contain
-data, scripts and other documents separately. 
-
-- Can also type the below function into the Console, but we won't do that in this session.
-
-```{}
-prodigenr::setup_project("C:/Users/yebel/Desktop/LearningR")
-```
-
----
-
-# <span style="color:pink">Creating R objects</span>
-
-- Objects can be created in the form of
-   - `variable <- value`  or `variable = value` or `variable -> value`.
-   - Variable names can be letters, numbers, and the dot or underline characters but not dot followed by numbers `.4you `is illegal).
-   
-- the symbol `<-` (`Alt + -`) that could be read as `assign` or `place into` or `read in` etc. 
+- Creating functions in R is pretty simple: we assign a function to a variable, just like any other variable assignment:
 
 ```{r}
-# need to placed in quotes as diabetic is string.
-A <-"Diabetic"#<< 
+my_fn <- function(x) {
+  2 * x
+}
 ```
 
-- The standard data objects in R are: **scalars, vectors, factors, matrices and arrays, lists, and data frames**.
+- a function is made up of arguments(the bit between the parentheses) and the body (the bit between the curly brackets).
 
-- Data types assigned to each objects are: **logical, numeric, integer, character, complex.**
-
----
-
-# <span style="color:pink">Vector</span>
-
-- A set of scalars arranged in a one-dimensional array.
-
-- Data values are all the same mode(data type), but can hold any mode.
-   - e.g:(-2, 3.4, 3), (TRUE, FALSE, TRUE), ("blue", "gray", "red")
-   
-- Vectors can be created using the following functions:
-
-- `c()` function to combine individual values
-   - `x <- c(10.4, 5.6, 3.1, 6.4, 21.7)`
-
-- `seq()` to create more complex sequences
-   - `seq(from=1, to=10, by=2) or seq(1,10 )` 
-
-- `rep()` to create replicates of values
-   - `rep(1:4, times=2, each=2)`
-   
----
-
-# <span style="color:pink">Some useful functions in vector</span>
-
-- `class(x):` returns class/type of vector x
-
-- `length(x):` returns the total number of elements
-
-- `x[length(x)]:` returns last value of vector x 
-
-- `rev(x):` returns reversed vector
-
-- `sort(x):` returns sorted vector
-
-- `unique(x):` returns vector without multiple elements
-
-- `range(x):` Range of x
-
-- `quantile(x):` Quantiles of x for the given probabilities
-
-- `which.max(x):`  index of maximum
-
-- `which.min(x):`  index of minimum
-
----
-
-# <span style="color:pink">Factors</span>
-
-- A factor is used to store predefined categorical data
-
-- Can be ordered and unordered
-  - e.g. :("yes", "no", "no", "yes", "yes"), ("male", "female", "female", "male")
-
-- Factors can be created using `factor()`
+- The last executed expression is returned from the function
 
 ```{r}
-size <- factor(c("small", "large", "small", "medium"))
+my_fn(3)
 ```
 
-- The levels of a factor can be displayed using `levels()`.
-
 ---
 
-# <span style="color:pink">Matrix</span>
+- arguments are like variables that we can specify when we *call* the function.
 
-- Matrix is a rectangular array arranged in rows and columns. 
+- a function can have 0 arguments, or many arguments
 
-- The individual items in a matrix are called its elements or entries. 
-
-- Matrices can be created by:
-
-1. `matrix()`
-
-2. converting a vector into a matrix
-
-3. binding together vectors
-
-- Matrices can be created using the functions:
-   - `matrix()` creates a matrix by specifying rows and columns
-   - `dim()` sets dimensions to a vector
-   - `cbind` combines columns
-   - `rbind` combines rows 
-
----
-
- e.g.
+.pull-left[
 ```{r}
-m1<-matrix(data = 1:6, nrow = 3, ncol = 2)
-m2<-cbind(1:3,5:7,10:12)
-x=1:6
-dim(x) <- c(2, 3)
+my_fn <- function() {
+  3
+}
+my_fn()
 ```
+]
+.pull-right[
+```{r}
+my_fn <- function(x, y) {
+  x + y
+}
+my_fn(3, 2)
+```
+]
 
-- Note: `dim()` can also be used to retrieve dimensions of an object! 
+- a function can be **variadic** by specifying a ... argument, this is somewhat outside of the scope for today, but allows you to create functions with a variable number of arguments. 
 
-**Assign names to rows and columns of a matrix**
+- Often in R this is used to provide arguments that are passed to other functions.
 
 ```{r}
-rownames(m1) <- c("A", "B", "C") 
-colnames(m1)<- c("a","b")
+function(x, y, ...) {
+  other_function(...)
+}
 ```
 
 ---
 
-# <span style="color:pink">Data frames</span>
+- The body of the function can be split over multiple lines of code. It's common to include flow-control statements within a function, e.g.
 
-- a data set in R is stored a data frame.
+- `if` and `else` statements
+- `for` and `while` loops
+- `stop` statements (used to produce an **error** message)
+- `return` statements (immediately exits the function returning a given value)
 
-- Two-dimensional, arranged in rows and columns created using the function:  `data.frame()`
-- e.g.
-```{r, eval=FALSE, message=FALSE}
-df <- data.frame(ID = 1:3, Sex = c("F", "F", "M"), Age = c(17, 18,18))
+.pull-left[
+
+```{r}
+my_fn <- function(x) {
+  if (x > 10) {
+    stop ("x is too big!")
+  } else if (x > 5) {
+    return (x*2)
+  }
+  y <- x - 1
+  for (i in 1:5) {
+    y <- y*2
+  }
+  y
+}
 ```
+]
+.pull-right[
 
-- We can enter data directly by access the editor using either the `edit()` or `fix()`
-
-```{r, eval=FALSE}
- new.data<-data.frame()  # creates an "empty" data frame
- new.data<-edit(new.data) # request the changes or  `fix(new.data)`
-
+```{r}
+my_fn(2)
+my_fn(5)
+my_fn(6)
+my_fn(10)
 ```
-
-- We'll use the data set called **diabetes data** to do this exploration. 
-
-```{r, eval=FALSE}
-library(readr)
-diabetes <- read_csv("diabetes.csv")
-#View(diabetes)
-```
----
-
-# <span style="color:pink">Quick intro to functions</span>
-
-
-- Use `head()` and `tail()` to view the **first (and last) five rows**
-
-- Use `View()` to **view an entire** `data.table` object
-
-- Use `str()` to view the **structure** of `data.table` object
-
-- Use `tables()` to **show all loaded `data.table` objects**
-
-- **Sorting** and **ordering** rows using `setorder()` and `order()`
-
-- Arguments are always enclosed in parentheses
-
-- `colnames()` to look variable names
-
-- `colSums(is.na())` to sum missing data
-
-- Use `subset()` to subset data.
-
-- Functions in R take named arguments.  
+]
 
 ---
 
-# <span style="color:pink">Subsetting</span>
+## function argument/variable scope
 
-```{r, eval=FALSE}
-diabetes[] # the whole data frame 
-diabetes[1, 1] # 1st element in 1st column 
-diabetes[1, 6] # 1st element in the 6th column 
-diabetes[, 1] # first column in the data frame 
-diabetes[1] # first column in the data frame 
-diabetes[1:3, 3] 
-diabetes[3, ] # the 3rd row 
-diabetes[1:6, ] # the 1st to 6th rows
-diabetes[c(1,4), ] # rows 1 and 4 only 
-diabetes[c(1,4), c(1,3) ] 
-diabetes[, -1] # the whole except first column
+- the values that are used in the function only exist in the function: we can't use them outside of the function
+
+```{r}
+my_fn <- function(x) {
+  y <- 2 * x
+  c(exists("x"), exists("y"))
+}
+my_fn(3)
+
+c(exists("x"), exists("y"))
+
 ```
+
+---
+
+- we can access variables that are defined outside of the function, but we can't modify them
+```{r}
+v <- 8
+my_fn <- function(x) {
+  y <- 2 * x
+  v <- v - 1
+  y + v
+}
+my_fn(3)
+```
+
+
+- Now, inside the function call we decreased the value of v, but if we look at what value v has now we will see it hasn't changed
+
+```{r}
+v
+```
+
+- R has created a new version of v inside the function and updated that value.
+
+---
+
+
+## default arguments
+
+- you can specify default values for arguments: an argument with a default value does not have to be specified when you call the function
+
+```{r}
+my_fn <- function(x, y = 3) {
+  x + y
+}
+my_fn(4)
+
+```
+
+- In this case we only passed a value for `x (4)`, y defaulted to *3*. But you can provide values, like so
+
+```{r}
+my_fn(4, 5)
+
+```
+
+---
+
+## argument order
+
+- by default, the arguments are evaluated in order (x, then y). 
+
+- But, you can specify them in any order if you provide the name of the argument.
+
+```{r}
+my_fn(y = 5, x = 4)
+my_fn(y = 5, 4)
+```
+
+---
+
+## Using functions like variables
+
+- because functions are just variables, you are able to pass functions as arguments to other functions
+
+```{r}
+f <- function(values, fn) {
+  fn(values)
+}
+f(c(1, 2, 5, 8), mean)
+f(c(1, 2, 5, 8), median)
+```
+
+- note, here the functions are passed without the parentheses:  we are passing the function, not the result of evaluating the function
+
+
+
+
 
