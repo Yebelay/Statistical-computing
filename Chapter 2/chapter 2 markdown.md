@@ -1,9 +1,5 @@
 # Control Statements and Programming with functions
 
-
-```{r xaringan-logo, echo=FALSE}
-xaringanExtra::use_logo(image_url = "Rlogo.png",   width = "90px",height = "85px")
-```
 ## Outlines
 
 2.1. Conditional and Repetitive executions
