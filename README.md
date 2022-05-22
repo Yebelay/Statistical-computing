@@ -25,7 +25,7 @@ This repository contains lecture notes for statistical computing for undergradua
 ### Chapter 2. Control Statements and Programming with functions
 
 *  [Lecture Note (Slide)](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%202/Control%20Statements%20and%20Programming%20with%20functions.pdf)
-* [md file](https://github.com/Yebelay/Statistical-computing/edit/main/Chapter%202/chapter%202%20markdown.md)
+* [md file](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%202/chapter%202%20markdown.md)
 
 ### Chapter 3. Probability and Sampling Distributions 
 
