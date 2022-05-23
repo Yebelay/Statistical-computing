@@ -4,7 +4,7 @@
     <title>Probability and Sampling Distributions </title>
     <meta charset="utf-8" />
     <meta name="author" content="Yebelay Berehan  Biostatistician " />
-    <meta name="date" content="2022-05-20" />
+    <meta name="date" content="2022-05-22" />
     <script src="Chapter-3_files/header-attrs/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -22,7 +22,7 @@ class: center, middle, title-slide
 ### <p><a href="yebelay.ma@gmail.com"><span style="font-size: 80%;"> <span style="color:cyan">yebelay.ma@gmail.com</span></span></a></p>
 ]
 .date[
-### 2022-05-20
+### 2022-05-22
 ]
 
 ---
@@ -68,13 +68,22 @@ top:1em;right:1em;
 
 # &lt;span style="color:blue"&gt; Outlines&lt;/span&gt;
 
-2 R as a set of statistical tables
+- **Random sampling**
 
-2.1 Examining the distribution of a set of data
+- Built in **discrete probability distributions**
+   - *Binomial* Distribution
+   - *Geometric* Distribution
+   - *Negative Binomial* Distribution
+   - *Poisson* Distribution
 
-2.2 Simulating the Sample Distribution of the Mean
+- Built in **continuous probability distributions**
+   - *Uniform* distribution
+   - *Exponential and Gamma* distribution
+   - *Normal and t* distribution
+   - *Chi-square and f* distributions
 
-2.3 One and two sample tests
+- **Examining the distribution of a set of data**
+- **Simulating** the Sample Distribution of the Mean
 
 
 ---
@@ -106,7 +115,7 @@ sample(x = 1:10, size  = 5)
 ```
 
 ```
-## [1]  1  6  2 10  7
+## [1]  6  7 10  8  5
 ```
 ]
 .pull-right[
@@ -117,7 +126,7 @@ sample(x= 1:5, size = 10,replace=TRUE)
 ```
 
 ```
-##  [1] 4 5 4 5 4 4 2 5 1 2
+##  [1] 4 4 5 1 5 1 1 4 4 4
 ```
 ]
 
@@ -134,7 +143,7 @@ sample(x = c("a", "b"), prob = c(.8, .2),
 ```
 
 ```
-##  [1] "a" "a" "a" "a" "a" "a" "a" "a" "b" "a"
+##  [1] "b" "a" "a" "a" "a" "a" "b" "a" "b" "b"
 ```
 
 ---
@@ -151,7 +160,7 @@ sample(x = c("H", "T"), # The possible values of the coin
 ```
 
 ```
-##  [1] "T" "T" "H" "H" "H" "T" "T" "H" "T" "H"
+##  [1] "H" "H" "T" "H" "H" "H" "T" "H" "H" "H"
 ```
 
 - Now let’s change it by simulating flips of a biased coin, where the probability of Heads is 0.8, and the probability of Tails is 0.2. 
@@ -163,7 +172,7 @@ sample(x = c("H", "T"),
 ```
 
 ```
-##  [1] "H" "H" "H" "H" "H" "H" "H" "H" "H" "H"
+##  [1] "T" "T" "H" "H" "H" "T" "T" "T" "H" "H"
 ```
 
 ---
@@ -171,12 +180,36 @@ sample(x = c("H", "T"),
 ## 3.2.	Built in discrete probability distributions
 
 - What is a probability distribution? 
+
 - How to generate random data from specified probability distributions. 
+
 -  See all distributions included in Base R
+
 
 ```r
 ?Distributions
 ```
+
+---
+
+### General Syntax for Distribution Functions
+
+- There are four basic R commands that apply to the various distributions defined in R. 
+
+- Functions are provided to evaluate the pdf (d), CDF (p), quintile (q) and simulate from the distribution (r). 
+
+- Each letter can be added as a prefix to any of the R distribution names. 
+
+- Letting dist denote the particular distribution then the basic syntax of the four basic commands are:
+
+
+```r
+ddist (x, parameters)  # probability density of DIST evaluated at x.
+qdist (p, parameters)  # returns x for Pr(DIST(parameters)â¤ x) = p
+pdist(x, parameters)  # returns Pr(DIST(parameters) â¤ x)
+rdist(n, parameters)  # generates n random variables from DIST (parameters) 
+```
+
 ---
 
 ### R Functions for Probability Distributions
@@ -185,22 +218,48 @@ sample(x = c("H", "T"),
 - There is a root name, for example, the root name for the normal distribution is norm. 
 - This root is prefixed by one of the letters
 
-- `p`:  for "probability", the cumulative distribution function (c.d.f.)
-- `q`:  for "quantile", the inverse c.d.f.
-- `d`:  for "density", the density function (p.f. or p.d.f.)
-- `r`:  for "random", a random variable having the specified distribution
+- `p`:  for **probability**, the cumulative distribution function (c.d.f.)
+- `q`:  for **quantile**, the inverse c.d.f.
+- `d`:  for **density**, the density function (p.f. or p.d.f.)
+- `r`:  for **random**, a random variable having the specified distribution
 
 - For the binomial distribution, these functions are `pbinom`, `qbinom`, `dbinom`, and `rbinom`. 
 
-- For a discrete distribution, the "d" function calculates the density (p.f.), which in this case is a probability `$$f(x) = P(X = x)$$`
+- For a discrete distribution, the **d** function calculates the density (p.f.), which in this case is a probability `$$f(x) = P(X = x)$$`
 and hence is useful in calculating probabilities.
 
 ---
 
 ## The Binomial Distribtion
 
+
+- Density, distribution function, quantile function and random generation for the binomial distribution with parameters size and prob.
+
+```r
+dbinom(x, size, prob, log = FALSE)
+pbinom(q, size, prob, lower.tail = TRUE, log.p = FALSE)
+qbinom(p, size, prob, lower.tail = TRUE, log.p = FALSE)
+rbinom(n, size, prob)
+```
+
+- **Arguments**
+
+  - `x, q` :	vector of quantiles.
+  - `p` :	vector of probabilities.
+  - `n` :	number of observations. 
+  - `size` : number of trials (zero or more).
+  - `prob` : probability of success on each trial.
+  - `log, log.p` : logical; if TRUE, probabilities p are given as log(p).
+  - `lower.tail` : logical; if TRUE (default), probabilities are `\(P[X \le x]\)`, otherwise, `\(P[X &gt; x]\)`.
+
+---
+
+**Details**
+- The binomial distribution with `size = n` and `prob = p` has density
+
+`\(p(x) = {n \choose x} {p}^{x} {(1-p)}^{n-x}\)`, for `\(x = 0, \ldots, n\)`. 
+
 - `dbinom` is the R function that calculates the p.f. of the binomial distribution. 
-- Optional arguments described on the on-line documentation specify the parameters of the particular binomial distribution.
 
 - Both of the R commands in the box below do exactly the same thing.
 
@@ -225,7 +284,7 @@ dbinom(27, 100, 0.25)
 
 **Question:** What is P(X = 1) when X has the Bin(25, 0.005) distribution?
 
-----
+---
 
 - `pbinom` is the R function that calculates the c.d.f. of the binomial distribution. 
 
@@ -250,43 +309,210 @@ pbinom(27, 100, 0.25)
 
 **Question**: What is P(X &lt;= 1) when X has the Bin(25, 0.005) distribution?
 
----
+- `qbinom` is the R function that calculates the **inverse c.d.f.** of the binomial distribution. 
 
-- `qbinom` is the R function that calculates the "inverse c.d.f." of the binomial distribution. 
+- The quantile is defined as the smallest value x such that `F(x) &gt;= p`, where F is the distribution function.
 
-The quantile is defined as the smallest value x such that `F(x) &gt;= p`, where F is the distribution function.
-
-When the p-th quantile is nonunique, there is a whole interval of values each of which is a p-th quantile. The documentation says that qbinom (and other "q" functions, for that matter) returns the smallest of these values. That is one sensible definition of an "inverse c. d. f." In the terminology of Section  of the course notes, the function defined by qbinom is a right inverse of the function defined by pbinom, that is,
-q == pbinom(qbinom(q, n, p)),       0 &lt; q &lt; 1,   0 &lt; p &lt; 1,   n a positive integer
-is always true, but the analogous formula with pnorm and qnorm reversed does not necessarily hold.
 Example
-Question: What are the 10th, 20th, and so forth quantiles of the Bin(10, 1/3) distribution?
+Question: What are the 10th, 20th, and so forth quantiles of the `Bin(10, 1/3)` distribution?
 
 ---
 
 Answer:
 
+
+```r
 qbinom(0.1, 10, 1/3)
+```
+
+```
+## [1] 1
+```
+
+```r
 qbinom(0.2, 10, 1/3)
+```
+
+```
+## [1] 2
+```
+
+```r
 # and so forth, or all at once with
 qbinom(seq(0.1, 0.9, 0.1), 10, 1/3)
+```
 
+```
+## [1] 1 2 3 3 3 4 4 5 5
+```
 
-Note the nonuniqueness.
 ---
 
-### 3.2.1.	 Binomial Distribution
+### The Geometric Distribution
+
+- Density, distribution function, quantile function and random generation for the geometric distribution with parameter prob.
+```r
+dgeom(x, prob, log = FALSE)
+pgeom(q, prob, lower.tail = TRUE, log.p = FALSE)
+qgeom(p, prob, lower.tail = TRUE, log.p = FALSE)
+rgeom(n, prob)
+```
+
+**Arguments**
+
+- `x, q`	: vector of quantiles representing the number of failures in a sequence of Bernoulli trials before success occurs.
+- `p` : vector of probabilities.
+- `n` : number of observations. 
+- `prob` : probability of success in each trial. 0 &lt; prob &lt;= 1.
+- `log, log.p`:*logical*; if **TRUE**, probabilities p are given as log(p).
+- `lower.tail` : *logical*; if **TRUE** (default), probabilities are `\(P[X \le x]\)`, otherwise, `\(P[X &gt; x]\)`.
 
 ---
-### 3.2.2.	 Geometric Distribution
+
+- The geometric distribution with `prob = p` has density
+
+`\(p(x) = p {(1-p)}^{x}\)`, for `\(x = 0, 1, 2, \ldots, 0 &lt; p \le 1\)`.
+
+- If an element of x is not integer, the result of dgeom is zero, with a warning.
+
+- The quantile is defined as the smallest value xx such that `\(F(x) \ge p\)`, where FF is the distribution function.
+
+
 ---
 ### 3.2.3.	 Negative Binomial Distribution
+
+- Density, distribution function, quantile function and random generation for the negative binomial distribution with parameters size and prob.
+
+```r
+dnbinom(x, size, prob, mu, log = FALSE)
+pnbinom(q, size, prob, mu, lower.tail = TRUE, log.p = FALSE)
+qnbinom(p, size, prob, mu, lower.tail = TRUE, log.p = FALSE)
+rnbinom(n, size, prob, mu)
+```
+
+- `x`	: vector of (non-negative integer) quantiles.
+- `q`	: vector of quantiles.
+- `p`	: vector of probabilities.
+- `n`	: number of observations. 
+- `size` : target for number of successful trials.
+- `prob`: probability of success in each trial. 0 &lt; prob &lt;= 1.
+- `mu`: alternative parametrization via mean: see ‘Details’.
+- `log, log.p`: *logical*; if **TRUE**, probabilities p are given as log(p).
+- `lower.tail`: logical; if TRUE (default), probabilities are `\(P[X \le x]\)`, otherwise, `\(P[X &gt; x]\)`.
+
+---
+
+- The negative binomial distribution with `size = n` and `prob = p` has density
+
+`$$p(x) = \frac{\Gamma(x+n)}{\Gamma(n) x!} p^n (1-p)^x,$$`
+
+for `\(x = 0, 1, 2, \ldots, n &gt; 0\)` and `\(0 &lt; p \le 1\)`.
+
+- This represents the number of failures which occur in a sequence of Bernoulli trials before a target number of successes is reached. 
+
+- The mean is `\(\mu = n(1-p)/p\)` and variance `\(n(1-p)/p^2\)`.
+
+
 ---
 ### 3.2.4.	 Poisson Distribution
 
+- Density, distribution function, quantile function and random generation for the Poisson distribution with parameter lambda.
+```r
+dpois(x, lambda, log = FALSE)
+ppois(q, lambda, lower.tail = TRUE, log.p = FALSE)
+qpois(p, lambda, lower.tail = TRUE, log.p = FALSE)
+rpois(n, lambda)
+```
+**Arguments**
+- x	: vector of (non-negative integer) quantiles.
+- q	: vector of quantiles.
+- p	: vector of probabilities.
+- n	: number of random values to return.
+- lambda : vector of (non-negative) means.
+- log, log.p: *logical*; if **TRUE**, probabilities p are given as log(p).
+- lower.tail: *logical*; if **TRUE** (default), probabilities are `\(P[X \le x]\)`, otherwise, `\(P[X &gt; x]\)`.
 ---
 
-### Normal (Gaussian)
+The Poisson distribution has density
+
+`$$p(x) = \frac{\lambda^x e^{-\lambda}}{x!},$$`for `\(x = 0, 1, 2, \ldots,.\)`
+- The mean and variance are `\(E(X) = Var(X) = \lambda\)`.
+
+
+- `dpois` gives the (log) density, 
+- `ppois` gives the (log) distribution function,
+- `qpois` gives the quantile function, and 
+- `rpois` generates random deviates.
+---
+
+## 3.3.	Built in continuous probability distributions
+
+### 3.3.1.	Uniform distribution
+
+Next, let’s move on to the Uniform distribution. 
+
+&lt;img src="uniformd.png" width="400px" style="display: block; margin: auto;" /&gt;
+
+- The Uniform distribution gives equal probability to all values between its minimum and maximum values. 
+- In other words, everything between its lower and upper bounds are equally likely to occur. 
+
+---
+
+- To generate samples from a uniform distribution, use the function `runif()`, the function has 3 arguments:
+
+**Argument	Definition from `runif()`**
+
+- `n`:	The number of observations to draw from the distribution.
+- `min`:	The lower bound of the Uniform distribution from which samples are drawn
+- `max`:	The upper bound of the Uniform distribution from which samples are drawn
+
+
+```r
+# 5 samples from Uniform dist with bounds at 0 and 1
+runif(n = 5, min = 0, max = 1)
+```
+
+```
+## [1] 0.2858997 0.3468967 0.9501149 0.2457629 0.6093980
+```
+
+
+```r
+# 10 samples from Uniform dist with bounds at -100 and +100
+runif(n = 10, min = -100, max = 100)
+```
+
+```
+##  [1]  10.094945   2.126764  72.687654  16.426459  52.700708  39.776163
+##  [7] -88.814037 -39.604642  75.752884 -94.009021
+```
+
+---
+
+## 3.3.2.	Exponential and Gamma distribution
+
+
+
+```r
+dexp(x, rate = 1, log = FALSE)
+pexp(q, rate = 1, lower.tail = TRUE, log.p = FALSE)
+qexp(p, rate = 1, lower.tail = TRUE, log.p = FALSE)
+rexp(n, rate = 1) 
+```
+
+---
+## 3.3.3.	Normal and t distribution
+
+1. Normal distribution
+
+
+```r
+dnorm(x, mean = 0, sd = 1, log = FALSE)
+pnorm(q, mean = 0, sd = 1, lower.tail = TRUE, log.p =FALSE) 
+qnorm(p, mean = 0, sd = 1, lower.tail = TRUE, log.p = FALSE)
+rnorm(n, mean = 0, sd = 1)
+```
+---
 
 &lt;img src="normald.png" width="400px" style="display: block; margin: auto;" /&gt;
 
@@ -311,7 +537,7 @@ rnorm(n = 5, mean = 0, sd = 1)
 ```
 
 ```
-## [1] -0.28588459 -0.53785906  0.88295099  0.25815973 -0.03808569
+## [1] -1.3252867 -0.3770501  0.9346330  1.3329498 -1.6003412
 ```
 
 
@@ -321,52 +547,32 @@ rnorm(n = 3, mean = -10, sd = 15)
 ```
 
 ```
-## [1]  12.180685  -2.073572 -31.350985
+## [1] -12.154651   1.868137  -6.155252
 ```
 
 - Again, because the sampling is done randomly, you’ll get different values each time you run `rnorm()`
 
 ---
 
-### Uniform
-
-Next, let’s move on to the Uniform distribution. 
-
-&lt;img src="uniformd.png" width="450px" style="display: block; margin: auto;" /&gt;
-
-- The Uniform distribution gives equal probability to all values between its minimum and maximum values. 
-- In other words, everything between its lower and upper bounds are equally likely to occur. 
-
----
-
-- To generate samples from a uniform distribution, use the function `runif()`, the function has 3 arguments:
-
-**Argument	Definition from `runif()`**
-
-- `n`:	The number of observations to draw from the distribution.
-- `min`:	The lower bound of the Uniform distribution from which samples are drawn
-- `max`:	The upper bound of the Uniform distribution from which samples are drawn
+## 3.3.4.	Chi-square and f distributions
 
 
 ```r
-# 5 samples from Uniform dist with bounds at 0 and 1
-runif(n = 5, min = 0, max = 1)
+dchisq(x, df, ncp = 0, log = FALSE)
+pchisq(q, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)
+qchisq(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)
+rchisq(n, df, ncp = 0)
 ```
-
-```
-## [1] 0.8209776 0.3814835 0.9330325 0.9343707 0.6190330
-```
-
+- computing values of 2000 random values with 5 degrees of freedom
 
 ```r
-# 10 samples from Uniform dist with bounds at -100 and +100
-runif(n = 10, min = -100, max = 100)
+x &lt;- rchisq(20000, df = 5)
+hist(x, freq = FALSE, xlim = c(0,16), ylim = c(0,0.2))
+curve(dchisq(x, df = 5), from = 0, to = 15, 
+      n = 5000, col= 'red', lwd=2, add = T)
 ```
 
-```
-##  [1]  82.80733 -16.35989  24.83768  21.61241  50.02233  50.36999  57.45832
-##  [8]  54.99531  46.54192 -87.10910
-```
+![](Chapter-3_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -465,59 +671,6 @@ This generates 1000 i. i. d. normal random numbers (first line), plots their his
 
 ---
 
-# R as a set of statistical tables
-
-- One convenient use of R program is to provide a simple way for statistical tables of just about any probability distribution and also allows for easy plotting of the form of these distributions.
-
-### General Syntax for Distribution Functions
-
-- There are four basic R commands that apply to the various distributions defined in R. 
-
-- Functions are provided to evaluate the pdf (d), CDF (p), quintile (q) and simulate from the distribution (r). 
-
-- Each letter can be added as a prefix to any of the R distribution names. 
-
-- Letting dist denote the particular distribution then the basic syntax of the four basic commands are:
-
-
-```r
-ddist (x, parameters)  # probability density of DIST evaluated at x.
-qdist (p, parameters)  # returns x for Pr(DIST(parameters)â¤ x) = p
-pdist(x, parameters)  # returns Pr(DIST(parameters) â¤ x)
-rdist(n, parameters)  # generates n random variables from DIST (parameters) 
-```
-
----
-
-1. Normal distribution
-
-
-```r
-dnorm(x, mean = 0, sd = 1, log = FALSE)
-pnorm(q, mean = 0, sd = 1, lower.tail = TRUE, log.p =FALSE) 
-qnorm(p, mean = 0, sd = 1, lower.tail = TRUE, log.p = FALSE)
-rnorm(n, mean = 0, sd = 1)
-```
-
-2. chi-squared
-
-```r
-dchisq(x, df, ncp = 0, log = FALSE)
-pchisq(q, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)
-qchisq(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)
-rchisq(n, df, ncp = 0)
-```
-
-3. Exponential
-
-```r
-dexp(x, rate = 1, log = FALSE)
-pexp(q, rate = 1, lower.tail = TRUE, log.p = FALSE)
-qexp(p, rate = 1, lower.tail = TRUE, log.p = FALSE)
-rexp(n, rate = 1) 
-```
-
----
 
 - The following examples illustrate the use of the R functions for computations involving statistical distributions:
 

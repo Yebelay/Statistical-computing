@@ -1,4 +1,54 @@
-# Control Statements and Programming with functions
+---
+title: |
+       <span style="color:white">Control Statements and Programming with functions</span>
+
+author: "Yebelay Berehan <br><span style = 'font-size: 50%;'>Biostatistician </span>"
+institute: |
+           [<span style = 'font-size: 80%;'> <span style="color:cyan">yebelay.ma\@gmail.com</span></span>](yebelay.ma\@gmail.com)
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    nature:
+     # highlightStyle: googlecode
+      highlightLines: true
+      #highlightLanguage: ["r"]
+      ratio: "16:9"
+     # highlightLines: true
+      highlightSpans: true
+      highlightStyle: github
+      countIncrementalSlides: false
+      titleSlideClass: ["center","middle"]
+  includes:
+    in_header: columns.tex
+---
+```{r setup, include=FALSE, purl=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(comment = "##")
+library(datasets)
+library(ggplot2)
+library(dplyr)
+```
+
+```{r xaringan-logo, echo=FALSE}
+xaringanExtra::use_logo(image_url = "Rlogo.png",   width = "90px",height = "85px")
+```
+
+```{r xaringan-themer, include=FALSE}
+library(xaringanthemer)
+style_duo_accent(
+  primary_color = "#008080", 
+  secondary_color = "#0556AA",
+  #text_font_google = google_font("Roboto"),
+  text_font_size = "23px",
+  background_color = "#FFFFFF",
+  #code_font_family = "Ligature Code",
+  code_font_size = "0.9em", 
+  footnote_color = "blue",
+  footnote_position_bottom = "0.1em",
+)
+```
+
 
 ## Control flow constructs
 
@@ -233,9 +283,9 @@ if(x < 3) {
 ---
 
 ## for() Loop: Diagram
-
-![for](forloop.png)
-
+```{r, out.width = "85%", echo=FALSE, fig.align='center'}
+knitr::include_graphics('forloop.png')
+```
 
 ---
 
