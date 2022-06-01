@@ -1,469 +1,541 @@
-# Introduction to R part one
+# <span style="color:blue"> Outlines</span>
 
-# <span style="color:pink"> Outlines</span>
+- **Random sampling**
 
-1. What / Why R? 
+- Built in **discrete probability distributions**
+   - *Binomial* Distribution
+   - *Geometric* Distribution
+   - *Negative Binomial* Distribution
+   - *Poisson* Distribution
 
-2. Rstudio & R
+- Built in **continuous probability distributions**
+   - *Uniform* distribution
+   - *Exponential* distribution
+   - *Normal* distribution
 
-   a. The Source, Console, Help and Environment panes
+- **Examining the distribution of a set of data**
+- **Simulating** the Sample Distribution of the Mean
 
-   b. Functions and Data Objects
 
-3. Working with R: Objects and Workspace
-
-   a. R Objects & Project Management
-
-   b. Good Coding practice
-   
 ---
 
-#  What is R?
+### Random sampling
 
-* Computer language & environment for statistical computing & graphics. 
+- Because R is a language built for statistics, it contains many functions that allow you generate random data  
+   – either from a vector of data, or from an established probability distribution.
 
-* Script based (text computer code), not GUI based (menu / point & click).
+- The standard `sample()` function used for drawing random values from a vector. 
 
-* Tools for Data Handling and manipulation
+**Argument	definition `sample()` function**
+- `x`:	A vector of outcomes you want to sample from. 
+- `size`:	The number of samples you want to draw. *The default is the length of x*.
+- `replace`:	Should sampling be done with replacement?
+- `prob`:	A vector of probabilities of the same length as x indicating how likely each outcome in x is. 
+   + *The default is equally likely*.
+- The `sample()` function allows you to draw random samples of elements (scalars) from a vector. 
 
-* Large collection of statistical tools (packages) for Data Analysis;
+---
+
+Let’s use sample() to draw 10 samples from a vector of integers from 1 to 10.
+
+.pull-left[
+```{r}
+# Draw with out replacement #<<
+sample(x = 1:10, size  = 5)
+```
+]
+.pull-right[
+```{r}
+# Draw with replacement #<<
+sample(x= 1:5, size = 10,replace=TRUE)
+```
+]
+
+- If you try to draw a large sample from a vector replacement, R will return an error because it runs out of things to draw:
+
+- To specify how likely each element in the vector x should be selected, use the prob argument. 
+- The length of the prob argument should be as long as the x argument.
+
+```{r}
+#Draw 10 samples with probability of selecting “a” to be .90
+sample(x = c("a", "b"), prob = c(.8, .2),
+       size = 10, replace = TRUE)
+```
+
+---
+
+###	Built in discrete probability distributions
+
+- What is a probability distribution? 
+
+- How to generate random data from specified probability distributions. 
+.pull-left[
+  **Discrete Distribution**
+
+Distribution | R name | Parameters
+------------ | ------ | ----------
+Binomial     | binom  | size, prob
+Negative binomial | nbinom | size, prob
+Poisson      | pois   | lambda
+geometric    | geom   | prob
+]
+.pull-right[
+  **Continuous Distribution**
+
+Distribution | R name | Parameters
+------------ | ------ | ----------
+chi-squared  | chisq  | df, ncp
+exponential  | exp    | rate
+F            | f      | df1, df2, ncp
+uniform      | unif   | min, max 
+normal       | norm   | mean, sd
+Student's t  | t      | df, ncp
+
+]
+
+---
+
+### General Syntax for Distribution Functions
+
+- There are four basic R commands that apply to the various distributions defined in R. 
+
+- Functions are provided to evaluate the pdf (d), CDF (p), quintile (q) and simulate from the distribution (r). 
+
+- Each letter can be added as a prefix to any of the R distribution names. 
+
+- Letting dist denote the particular distribution then the basic syntax of the four basic commands are:
+
+```{r, eval=FALSE}
+ddist (x, parameters)  # probability density of DIST evaluated at x.
+qdist (p, parameters)  # returns x for Pr(DIST(parameters)>= x) = p
+pdist(x, parameters)  # returns Pr(DIST(parameters) <= x)
+rdist(n, parameters)  # generates n random variables from DIST (parameters) 
+```
+
+---
+
+### R Functions for Probability Distributions
+
+- Every distribution that R handles has four functions. 
+- There is a root name, for example, the root name for the normal distribution is norm. 
+- This root is prefixed by one of the letters
+
+- `p`:  for **probability**, the cumulative distribution function (c.d.f.)
+- `q`:  for **quantile**, the inverse c.d.f.
+- `d`:  for **density**, the density function (p.f. or p.d.f.)
+- `r`:  for **random**, a random variable having the specified distribution
+
+- For the binomial distribution, these functions are `pbinom`, `qbinom`, `dbinom`, and `rbinom`. 
+
+- For a discrete distribution, the **d** function calculates the density (p.f.), which in this case is a probability $$f(x) = P(X = x)$$
+and hence is useful in calculating probabilities.
+
+---
+
+## The Binomial Distribtion
+
+
+- Density, distribution function, quantile function and random generation for the binomial distribution with parameters size and prob.
+
+```r
+dbinom(x, size, prob, log = FALSE)
+pbinom(q, size, prob, lower.tail = TRUE, log.p = FALSE)
+qbinom(p, size, prob, lower.tail = TRUE, log.p = FALSE)
+rbinom(n, size, prob)
+```
+
+- **Arguments**
+
+  - `x, q` :	vector of quantiles.
+  - `p` :	vector of probabilities.
+  - `n` :	number of observations. 
+  - `size` : number of trials (zero or more).
+  - `prob` : probability of success on each trial.
+  - `log, log.p` : logical; if TRUE, probabilities p are given as log(p).
+  - `lower.tail` : logical; if TRUE (default), probabilities are $P[X \le x]$, otherwise, $P[X > x]$.
+
+---
+
+**Details**
+- The binomial distribution with `size = n` and `prob = p` has density
+
+$p(x) = {n \choose x} {p}^{x} {(1-p)}^{n-x}$, for $x = 0, \ldots, n$. 
+
+- `dbinom` is the R function that calculates the p.f. of the binomial distribution. 
+
+- Both of the R commands in the box below do exactly the same thing.
+
+```{r}
+dbinom(27, size=100, prob=0.25)
+dbinom(27, 100, 0.25)
+```
+
+- They look up P(X = 27) when X is has the Bin(100, 0.25) distribution.
+
+**Question:** What is P(X = 1) when X has the Bin(25, 0.005) distribution?
+
+---
+
+- `pbinom` is the R function that calculates the c.d.f. of the binomial distribution. 
+
+```{r}
+pbinom(27, size=100, prob=0.25)
+pbinom(27, 100, 0.25)
+```
+
+- They look up P(X `<=` 27) when X is has the Bin(100, 0.25) distribution. 
+
+**Question**: What is P(X <= 1) when X has the Bin(25, 0.005) distribution?
+
+- `qbinom` is the R function that calculates the **inverse c.d.f.** of the binomial distribution. 
+
+- The quantile is defined as the smallest value x such that `F(x) >= p`, where F is the distribution function.
+
+Example
+Question: What are the 10th, 20th, and so forth quantiles of the `Bin(10, 1/3)` distribution?
+
+---
+
+Answer:
+
+```{r}
+qbinom(0.1, 10, 1/3)
+qbinom(0.2, 10, 1/3)
+# and so forth, or all at once with
+qbinom(seq(0.1, 0.9, 0.1), 10, 1/3)
+```
+
+---
+
+### The Geometric Distribution
+
+- Density, distribution function, quantile function and random generation for the geometric distribution with parameter prob.
+```r
+dgeom(x, prob, log = FALSE)
+pgeom(q, prob, lower.tail = TRUE, log.p = FALSE)
+qgeom(p, prob, lower.tail = TRUE, log.p = FALSE)
+rgeom(n, prob)
+```
+
+**Arguments**
+
+- `x, q`	: vector of quantiles representing the number of failures in a sequence of Bernoulli trials before success occurs.
+- `p` : vector of probabilities.
+- `n` : number of observations. 
+- `prob` : probability of success in each trial. 0 < prob <= 1.
+- `log, log.p`:*logical*; if **TRUE**, probabilities p are given as log(p).
+- `lower.tail` : *logical*; if **TRUE** (default), probabilities are $P[X \le x]$, otherwise, $P[X > x]$.
+
+---
+
+- The geometric distribution with `prob = p` has density
+
+$p(x) = p {(1-p)}^{x}$, for $x = 0, 1, 2, \ldots, 0 < p \le 1$.
+
+- If an element of x is not integer, the result of dgeom is zero, with a warning.
+
+- The quantile is defined as the smallest value xx such that $F(x) \ge p$, where FF is the distribution function.
+
+
+---
+### Negative Binomial Distribution
+
+- Density, distribution function, quantile function and random generation for the negative binomial distribution with parameters size and prob.
+
+```r
+dnbinom(x, size, prob, mu, log = FALSE)
+pnbinom(q, size, prob, mu, lower.tail = TRUE, log.p = FALSE)
+qnbinom(p, size, prob, mu, lower.tail = TRUE, log.p = FALSE)
+rnbinom(n, size, prob, mu)
+```
+
+- `x`	: vector of (non-negative integer) quantiles.
+- `q`	: vector of quantiles.
+- `p`	: vector of probabilities.
+- `n`	: number of observations. 
+- `size` : target for number of successful trials.
+- `prob`: probability of success in each trial. 0 < prob <= 1.
+- `mu`: alternative parametrization via mean: see ‘Details’.
+- `log, log.p`: *logical*; if **TRUE**, probabilities p are given as log(p).
+- `lower.tail`: logical; if TRUE (default), probabilities are $P[X \le x]$, otherwise, $P[X > x]$.
+
+---
+
+- The negative binomial distribution with `size = n` and `prob = p` has density
+
+$$p(x) = \frac{\Gamma(x+n)}{\Gamma(n) x!} p^n (1-p)^x,$$
+
+for $x = 0, 1, 2, \ldots, n > 0$ and $0 < p \le 1$.
+
+- This represents the number of failures which occur in a sequence of Bernoulli trials before a target number of successes is reached. 
+- The mean is $\mu = n(1-p)/p$ and variance $n(1-p)/p^2$.
+
+---
+
+### Poisson Distribution
+
+- Density, distribution function, quantile function and random generation for the Poisson distribution with parameter lambda.
+
+```r
+dpois(x, lambda, log = FALSE)
+ppois(q, lambda, lower.tail = TRUE, log.p = FALSE)
+qpois(p, lambda, lower.tail = TRUE, log.p = FALSE)
+rpois(n, lambda)
+```
+**Arguments**
+- x	: vector of (non-negative integer) quantiles.
+- q	: vector of quantiles.
+- p	: vector of probabilities.
+- n	: number of random values to return.
+- lambda : vector of (non-negative) means.
+- log, log.p: *logical*; if **TRUE**, probabilities p are given as log(p).
+- lower.tail: *logical*; if **TRUE** (default), probabilities are $P[X \le x]$, otherwise, $P[X > x]$.
+
+---
+
+The Poisson distribution has density
+
+$$p(x) = \frac{\lambda^x e^{-\lambda}}{x!},$$for $x = 0, 1, 2, \ldots,.$
+- The mean and variance are $E(X) = Var(X) = \lambda$.
+
+
+- `dpois` gives the (log) density, 
+- `ppois` gives the (log) distribution function,
+- `qpois` gives the quantile function, and 
+- `rpois` generates random deviates.
+---
+
+## Built in continuous probability distributions
+
+### Uniform distribution
+
+Next, let’s move on to the Uniform distribution. 
+
+```{r, out.width = "400px", echo=FALSE, fig.align='center'}
+knitr::include_graphics("uniformd.png")
+```
+
+- The Uniform distribution gives equal probability to all values between its minimum and maximum values. 
+- In other words, everything between its lower and upper bounds are equally likely to occur. 
+
+---
+
+- To generate samples from a uniform distribution, use the function `runif()`, the function has 3 arguments:
+
+**Argument	Definition from `runif()`**
+
+- `n`:	The number of observations to draw from the distribution.
+- `min`:	The lower bound of the Uniform distribution from which samples are drawn
+- `max`:	The upper bound of the Uniform distribution from which samples are drawn
+
+```{r}
+# 5 samples from Uniform dist with bounds at 0 and 1
+runif(n = 5, min = 0, max = 1)
+```
+
+```{r}
+# 10 samples from Uniform dist with bounds at -100 and +100
+runif(n = 10, min = -100, max = 100)
+```
+
+---
+
+### Exponential distribution
+
+
+```{r, eval=FALSE}
+dexp(x, rate = 1, log = FALSE)
+pexp(q, rate = 1, lower.tail = TRUE, log.p = FALSE)
+qexp(p, rate = 1, lower.tail = TRUE, log.p = FALSE)
+rexp(n, rate = 1) 
+
+```
+
+---
+### Normal distribution
+
+1. Normal distribution
+
+```{r, eval=FALSE}
+dnorm(x, mean = 0, sd = 1, log = FALSE)
+pnorm(q, mean = 0, sd = 1, lower.tail = TRUE, log.p =FALSE) 
+qnorm(p, mean = 0, sd = 1, lower.tail = TRUE, log.p = FALSE)
+rnorm(n, mean = 0, sd = 1)
+```
+
+```{r, out.width = "400px", echo=FALSE, fig.align='center'}
+knitr::include_graphics("normald.png")
+```
+
+- Three different normal distributions with different means and standard deviations
+
+---
+
+**Argument	Definition**
+
+- `n`:	The number of observations to draw from the distribution.
+- `mean`:	The mean of the distribution.
+- `sd`:	The standard deviation of the distribution.
+- The Normal distribution is bell-shaped, and has two parameters: a mean and a standard deviation. 
+
+- To generate samples from a normal distribution in R, we use the function `rnorm()`
+
+```{r}
+# 5 samples from a Normal dist with mean = 0, sd = 1
+rnorm(n = 5, mean = 0, sd = 1)
+```
+
+```{r}
+# 3 samples from a Normal dist with mean = -10, sd = 15
+rnorm(n = 3, mean = -10, sd = 15)
+```
+
+- Again, because the sampling is done randomly, you’ll get different values each time you run `rnorm()`
+
+---
+
+## Random samples will always change
+
+- Every time you draw a sample from a probability distribution, you’ll `(likely)` get a different result. 
+- For example, see what happens when I run the following two commands 
+
+### Use set.seed() to control random samples
+
+- There will be cases where you will want to create a reproducible example of some code that anyone else can replicate exactly. 
+- To do this, use the `set.seed()` function. 
+- Using `set.seed()` will force R to produce consistent random samples at any time on any computer.
+
+– you can set the seed to any integer you want. 
+
+```{r}
+#   always produce the same values
+set.seed(100)
+rnorm(3, mean = 0, sd = 1)
+rnorm(3, mean = 0, sd = 1)
+```
+
+Density
+dnorm is the R function that calculates the p. d. f. f of the normal distribution. As with pnorm and qnorm, optional arguments specify the mean and standard deviation of the distribution.
+
+There's not much need for this function in doing calculations, because you need to do integrals to use any p. d. f., and R doesn't do integrals. In fact, there's not much use for the "d" function for any continuous distribution (discrete distributions are entirely another matter, for them the "d" functions are very useful, see the section about dbinom).
+
+For an example of the use of pnorm, see the following section.
+
+Random Variates
+rnorm is the R function that simulates random variates having a specified normal distribution. As with pnorm, qnorm, and dnorm, optional arguments specify the mean and standard deviation of the distribution.
+
+We won't be using the "r" functions (such as rnorm) much. So here we will only give an example without full explanation.
+
+
+----
+
+This generates 1000 i. i. d. normal random numbers (first line), plots their histogram (second line), and graphs the p. d. f. of the same normal distribution (third and forth lines).
+
+---
+
+
+- The following examples illustrate the use of the R functions for computations involving statistical distributions:
+
+```{r, eval=FALSE}
+rnorm(10) # draws 10 random numbers
+rnorm(10, 5, 2) # N(µ= 5,sigma = 2) distribution
+dnorm(2) # return pdf at z= 2.
+pnorm(0) # returns cdf at t =0
+qnorm(0.5) # returns the 50% quantile 
+```
+
+
+```{r, eval=FALSE}
+mysample <- rnorm(50) # generates random numbers
+mu <- mean(mysample) # computes the sample mean
+sigma <- sd(mysample) # computes the sample standard
+x <- seq(-4, 4, length = 500) # defines x values for the pdf
+options(digits=3)
+
+y <- round(dnorm(x, mu, sigma), digits=4) # computes the normal pdf
+y
+```
+
+---
+
+# Repeatable Simulations
+
+- For a simulation to be repeatable we need to specify the type of random number generator and the initial state of the generator.
+
+- The simplest way to specify the initial state or seed is to use, `set.seed(seed)`
  
-   + .red[contributed by many experts]
+- The argument seed is a single integer value
 
-* Graphical interface for Visualizing Data & results from statistical analyses
+- Different seeds give different pseudo-random values
 
+- Calling `set.seed()` with the same seed produces the same results, if the sequence of calls is repeated exactly.
 
-* Relatively simple and effective, widely used, 
-   + **free, open source**.
-
----
-
-#  Why R?
-
--	Open source (free!): 
-
-   + open for anyone to review and contribute.
-
--	Maintained by top quality experts
-
--	Built for statistical analysis 
-
--	Reproducible and transparent:
-
-   + Saved R code can be used to easily reproduce any analysis and Collaborators can share their work in the R script format.
-
--	<span style="color:blueviolet">Publication-ready data visualization</span> 
-
--	Software compatibility
-
-
--	<span style="color:blueviolet">Generating reports in various formats (MS word, PDF)</span>
+- If a seed is not specified then the random number generator is initialized using the time of day.
 
 ---
 
-# <span style="color:pink">2. RStudio</span>
-
-### What is RStudio? Why use it?
-
--	Best Integrated Development Environment (IDE) for R.
-
-- <span style="color:darkred">Powerful and makes using R easier</span>
-
-- RStudio can:
-
-  - <span style="color:blue">Organize your code, output, and plots.</span>
-
-  - <span style="color:blue">Auto-complete code and highlight syntax.</span>
-
-  - <span style="color:blue">Help view data and objects.</span>
-
-  - <span style="color:blue">Enable easy integration of R code into documents.</span>
-
--	<span style="color:darkred">User-friendly interfaces.</span>
-
----
-
-# <span style="color:pink">Basic Setup</span>
-
-### Installing R
-
-- Visit <https://cran.r-project.org/>
-
-- Or simply google [download R](https://cran.r-project.org/bin/windows/base/) to find the link to download page.
-
-- Also, check out **Install R** tutorial video by RStudio, Inc.
-
-### Installing RStudio
-
-- Visit <https://www.rstudio.com/products/rstudio/download/>
-
-- Or simply google [download Rstudio](https://www.rstudio.com/products/rstudio/download/) to find the link to download page.
-
--	Also, check out **Install RStudio** tutorial video by RStudio, Inc.
-
-Choose the version for your computer and follow installation instructions. 
-
----
-
-# <span style="color:pink">RStudio Overview</span>
-![Rstudio](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/RStudio1.png)
-
-![Rstudio!](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/RStudio1.png)
-
-
----
-
-# <span style="color:pink">Getting Started</span>
-
-- RStudio will open with 4 sections (called panes): 
-
-**<span style="color:cyan">1. Source editor pane</span>**
-- Write and edit R scripts
-
-**<span style="color:cyan">2. Console pane</span>**
-- Interactively run R commands
-
-**<span style="color:cyan">3. Environment/history pane</span>**
-- <span style="color:orange">Environment:</span> view objects in the global environment
-- <span style="color:orange">History:</span> search and view command history
-
-**<span style="color:cyan">4. Files/Plots/Packages/Help pane </span>**
-- <span style="color:orange">Files:</span> navigate directories
-- <span style="color:orange">Plots:</span> view generated plots
-- <span style="color:orange">Packages:</span> manage installed packages in the library
-- <span style="color:orange">Help:</span> view help documentations for any package/function
-
----
-
-# <span style="color:pink">Customization</span>
-
-### Panes
-
-- The size and position of panes can be customized. 
-
-- On the top right of each pane, there are buttons to adjust the pane size. 
-
-- Also, place your mouse pointer/cursor on the border line between panes and when the pointer changes its shape, click and drag to adjust the pane size. 
-
-- For more options, go to **<span style="color:green">View > Panes</span>** on the menu bar. 
-
-- Alternatively, try **<span style="color:green">Tools > Global Options > Pane Layout</span>**.
-
-### Appearances
-
-- The overall appearance can be customized as well. 
-
-- Go to **<span style="color:green">Tools > Global options > Appearnce</span>** on the menu bar to change themes, fonts, and more.
-
----
-
-# <span style="color:pink">Installing and Loading Packages</span>
-
-- Packages are collections of R functions, data, and compiled code in a well-defined format. 
-- There are three categories of packages. 
-
-**<span style="color:blue">1. Base Packages:</span>** Providing the basic functionality, maintained by the R Core Development group. Currently, there are 14 packages, these are 
-```{r}
-rownames(installed.packages(priority="base"))
-```
-
-**<span style="color:blue">2. Recommended Packages:</span>** also a default package, mainly include additional more complex statistical procedures. These are 15 packages
-```{r}
-rownames(installed.packages(priority="recommended"))
-```
----
-
-**<span style="color:blue">3. Contributed packages:</span>** Due to the open nature of R, anyone can contribute new packages at any time. 
-
-- Currently, the CRAN package repository features <span style="color:red">19022 available packages</span>.
-
-
-### Installing Packages
-
-- **Option 1:** <span style="color:orange">Menu</span>
-
-
-
-![option 1](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/option1.png)
-
----
-
-- **Option 2:** <span style="color:orange">Packages Window</span>
-
-
-![option 2](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%201/Introduction%20to%20R-Part%201/img/option2.png)
-
-- **Option 3:** <span style="color:orange">Code</span>
+### example
 
 ```{r, eval=FALSE}
-install.packages("readxl") 
+set.seed(17632)
+runif(5)
+rnorm(5)
+set.seed(89432)
+runif(5)#<<
+set.seed(17632)
+runif(5)#<<
+rnorm(5)
+set.seed(17632)
+rnorm(5)
+runif(5)
 ```
 
-### Loading Packages
+---
+
+### Simulating the Sample Distribution of the Mean
+
+- Simulation is a numerical technique for conducting experiments on the computer. 
+- It uses to compare results of an inference under different assumptions
+
+- In any of the cases, it is often needed to create repeated random samples from a specific statistical model, and see how our approach behaves.
+
+- The central limit theorem is perhaps the most important concept in statistics. 
+
+- Samples taken from any distribution with finite mean and standard deviation, will tend towards a normal distribution around the mean of the population as sample size increases. 
+
+- Furthermore, as sample size increases, the variation of the sample means will decrease. 
 
 ```{r, eval=FALSE}
-library()   # see all packages installed
-search()    # see packages currently loaded
+data<-rnorm(25 , 100 , 15)
+mean(data)
+sd(data)
 ```
 
 ---
 
-# <span style="color:pink">Updating R and RStudio</span>
+- We know that, when the population is normal,  $\mu=100, \sigma = 15, and N = 25$, the sample mean has a normal distribution with mean 100 and standard deviation 3. 
 
-### Updating R
+- Let's verify that with a statistical simulation.
+```{r, eval=FALSE}
+mean(rnorm(25 , 100 , 15))
+replicate(10,mean(rnorm(25, 100, 15)))  # replicate 10 times
+data<-replicate(100000,mean(rnorm(25,100, 15))) #replicate 100000 times 
+mean(data )
+sd(data )
+```
 
-- Go to CRAN and download new version
+- Those results are very close to our theoretical expectation.
 
-- **More efficient:** install `installr` package, load it, and run `updateR()`
-
-  - Updates R and Optionally updates all packages
-  - **<span style="color:darkviolet">May be better to do this in `basic Rgui`</span>**
-- Version should update automatically in RStudio
-
-  - Check/change R version under **<span style="color:green">Tools>Global Options>R version</span>**
-
-- Then update the R packages with the code:
+- Let's look at histogram of our means.
 
 ```{r, eval=FALSE}
-update.packages(ask = FALSE, checkBuilt = TRUE)
+hist(data, breaks=100) #Or
+plot (density(data))   #Density plot of data
 ```
 
-- To updating RStudio: Go to RStudio and download new version
-
-- Click on <span style="color:green">Help>Check for Updates</span>, follow menu prompts
-
----
-
-# <span style="color:pink">Functions and Help</span>
-
-- Information about a function `read.table` can be accessed by typing the following into the console:
-
-```{r, message=FALSE, warning=FALSE, eval=FALSE}
-
- help(read.table) # help about function read.table
- ?read.table # same thing
- help.start() # general help
- example("read.table") # show an example of function read.table
- Sys.Date()
+- It certainly looks normal
+- We can easily induce R to superimpose the precise probability density function on top of this graph. I'm making my line dotted red.
+```{r, eval=FALSE}
+curve(dnorm(x , 100, 3), 88, 112, col = 'red', lty =2, add = TRUE )
 ```
-
-- Arguments are the inputs to a function. 
-
-- In this case, the only argument to `help()` is `read.table`. 
-
-- Help files provide documentation on how to use functions and what functions produce.
-
----
-
-# <span style="color:pink">3. Working with R Objects </span>
-
-**Organize with an RStudio project**
-
-* It is a good habit to immediately create a project for handling the analysis of new data and keep everything together. 
  
-- The workspace is a working environment where R will store and remember user-defined objects: **vectors, matrices, data frames, lists, variables** etc. 
-
-- To Create an R project, go to
-
-- **File > New Project and then choose: New Directory> Name for the directory > Click on Create Project**
-
-- For more complex project it may be useful to create sub-directories to contain
-data, scripts and other documents separately. 
-
-- Can also type the below function into the Console, but we won't do that in this session.
-
-```{}
-prodigenr::setup_project("C:/Users/yebel/Desktop/LearningR")
-```
-
----
-
-# <span style="color:pink">Creating R objects</span>
-
-- Objects can be created in the form of
-   - `variable <- value`  or `variable = value` or `variable -> value`.
-   - Variable names can be letters, numbers, and the dot or underline characters but not dot followed by numbers `.4you `is illegal).
-   
-- the symbol `<-` (`Alt + -`) that could be read as `assign` or `place into` or `read in` etc. 
-
-```{r}
-# need to placed in quotes as diabetic is string.
-A <-"Diabetic"#<< 
-```
-
-- The standard data objects in R are: **scalars, vectors, factors, matrices and arrays, lists, and data frames**.
-
-- Data types assigned to each objects are: **logical, numeric, integer, character, complex.**
-
----
-
-# <span style="color:pink">Vector</span>
-
-- A set of scalars arranged in a one-dimensional array.
-
-- Data values are all the same mode(data type), but can hold any mode.
-   - e.g:(-2, 3.4, 3), (TRUE, FALSE, TRUE), ("blue", "gray", "red")
-   
-- Vectors can be created using the following functions:
-
-- `c()` function to combine individual values
-   - `x <- c(10.4, 5.6, 3.1, 6.4, 21.7)`
-
-- `seq()` to create more complex sequences
-   - `seq(from=1, to=10, by=2) or seq(1,10 )` 
-
-- `rep()` to create replicates of values
-   - `rep(1:4, times=2, each=2)`
-   
----
-
-# <span style="color:pink">Some useful functions in vector</span>
-
-- `class(x):` returns class/type of vector x
-
-- `length(x):` returns the total number of elements
-
-- `x[length(x)]:` returns last value of vector x 
-
-- `rev(x):` returns reversed vector
-
-- `sort(x):` returns sorted vector
-
-- `unique(x):` returns vector without multiple elements
-
-- `range(x):` Range of x
-
-- `quantile(x):` Quantiles of x for the given probabilities
-
-- `which.max(x):`  index of maximum
-
-- `which.min(x):`  index of minimum
-
----
-
-# <span style="color:pink">Factors</span>
-
-- A factor is used to store predefined categorical data
-
-- Can be ordered and unordered
-  - e.g. :("yes", "no", "no", "yes", "yes"), ("male", "female", "female", "male")
-
-- Factors can be created using `factor()`
-
-```{r}
-size <- factor(c("small", "large", "small", "medium"))
-```
-
-- The levels of a factor can be displayed using `levels()`.
-
----
-
-# <span style="color:pink">Matrix</span>
-
-- Matrix is a rectangular array arranged in rows and columns. 
-
-- The individual items in a matrix are called its elements or entries. 
-
-- Matrices can be created by:
-
-1. `matrix()`
-
-2. converting a vector into a matrix
-
-3. binding together vectors
-
-- Matrices can be created using the functions:
-   - `matrix()` creates a matrix by specifying rows and columns
-   - `dim()` sets dimensions to a vector
-   - `cbind` combines columns
-   - `rbind` combines rows 
-
----
-
- e.g.
-```{r}
-m1<-matrix(data = 1:6, nrow = 3, ncol = 2)
-m2<-cbind(1:3,5:7,10:12)
-x=1:6
-dim(x) <- c(2, 3)
-```
-
-- Note: `dim()` can also be used to retrieve dimensions of an object! 
-
-**Assign names to rows and columns of a matrix**
-
-```{r}
-rownames(m1) <- c("A", "B", "C") 
-colnames(m1)<- c("a","b")
-```
-
----
-
-# <span style="color:pink">Data frames</span>
-
-- a data set in R is stored a data frame.
-
-- Two-dimensional, arranged in rows and columns created using the function:  `data.frame()`
-- e.g.
-```{r, eval=FALSE, message=FALSE}
-df <- data.frame(ID = 1:3, Sex = c("F", "F", "M"), Age = c(17, 18,18))
-```
-
-- We can enter data directly by access the editor using either the `edit()` or `fix()`
-
-```{r, eval=FALSE}
- new.data<-data.frame()  # creates an "empty" data frame
- new.data<-edit(new.data) # request the changes or  `fix(new.data)`
-
-```
-
-- We'll use the data set called **diabetes data** to do this exploration. 
-
-```{r, eval=FALSE}
-library(readr)
-diabetes <- read_csv("diabetes.csv")
-#View(diabetes)
-```
----
-
-# <span style="color:pink">Quick intro to functions</span>
-
-
-- Use `head()` and `tail()` to view the **first (and last) five rows**
-
-- Use `View()` to **view an entire** `data.table` object
-
-- Use `str()` to view the **structure** of `data.table` object
-
-- Use `tables()` to **show all loaded `data.table` objects**
-
-- **Sorting** and **ordering** rows using `setorder()` and `order()`
-
-- Arguments are always enclosed in parentheses
-
-- `colnames()` to look variable names
-
-- `colSums(is.na())` to sum missing data
-
-- Use `subset()` to subset data.
-
-- Functions in R take named arguments.  
-
----
-
-# <span style="color:pink">Subsetting</span>
-
-```{r, eval=FALSE}
-diabetes[] # the whole data frame 
-diabetes[1, 1] # 1st element in 1st column 
-diabetes[1, 6] # 1st element in the 6th column 
-diabetes[, 1] # first column in the data frame 
-diabetes[1] # first column in the data frame 
-diabetes[1:3, 3] 
-diabetes[3, ] # the 3rd row 
-diabetes[1:6, ] # the 1st to 6th rows
-diabetes[c(1,4), ] # rows 1 and 4 only 
-diabetes[c(1,4), c(1,3) ] 
-diabetes[, -1] # the whole except first column
-```
-

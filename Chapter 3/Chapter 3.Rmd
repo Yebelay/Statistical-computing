@@ -13,10 +13,10 @@ output:
      # highlightStyle: googlecode
       highlightLines: true
       #highlightLanguage: ["r"]
-      ratio: "14:9"
+      ratio: "16:9"
      # highlightLines: true
       highlightSpans: true
-      highlightStyle: tomorrow-night-bright
+      highlightStyle: github
       countIncrementalSlides: false
       titleSlideClass: ["center","middle"]
   includes:
@@ -37,16 +37,16 @@ xaringanExtra::use_logo(image_url = "Rlogo.png",   width = "90px",height = "85px
 ```{r xaringan-themer, include=FALSE}
 library(xaringanthemer)
 style_duo_accent(
-  primary_color = "#008080", 
+  primary_color = "#035AA6", 
   secondary_color = "#0556AA",
   #text_font_google = google_font("Roboto"),
-  text_font_size = "22px",
+  text_font_size = "23px",
   background_color = "#FFFFFF",
   #code_font_family = "Ligature Code",
   code_font_size = "0.9em", 
   footnote_color = "blue",
-  footnote_position_bottom = "0.1em",
-)
+  footnote_position_bottom = "0.1em",  
+  )
 ```
 
 
@@ -62,9 +62,8 @@ style_duo_accent(
 
 - Built in **continuous probability distributions**
    - *Uniform* distribution
-   - *Exponential and Gamma* distribution
-   - *Normal and t* distribution
-   - *Chi-square and f* distributions
+   - *Exponential* distribution
+   - *Normal* distribution
 
 - **Examining the distribution of a set of data**
 - **Simulating** the Sample Distribution of the Mean
@@ -72,7 +71,7 @@ style_duo_accent(
 
 ---
 
-## 3.1.	Random sampling
+### Random sampling
 
 - Because R is a language built for statistics, it contains many functions that allow you generate random data  
    – either from a vector of data, or from an established probability distribution.
@@ -117,36 +116,34 @@ sample(x = c("a", "b"), prob = c(.8, .2),
 
 ---
 
-## Simulating coin flips
-
-- Let’s simulate 10 flips of a fair coin, were the probably of getting either a Head or Tail is .50. 
-
-```{r}
-sample(x = c("H", "T"), # The possible values of the coin
-       size = 10,  # 10 flips
-       replace = TRUE) # Sampling with replacement
-```
-
-- Now let’s change it by simulating flips of a biased coin, where the probability of Heads is 0.8, and the probability of Tails is 0.2. 
-```{r}
-sample(x = c("H", "T"),
-       prob = c(.8, .2), # Make the coin biased for Heads
-       size = 10, replace = TRUE)
-```
-
----
-
-## 3.2.	Built in discrete probability distributions
+###	Built in discrete probability distributions
 
 - What is a probability distribution? 
 
 - How to generate random data from specified probability distributions. 
+.pull-left[
+  **Discrete Distribution**
 
--  See all distributions included in Base R
+Distribution | R name | Parameters
+------------ | ------ | ----------
+Binomial     | binom  | size, prob
+Negative binomial | nbinom | size, prob
+Poisson      | pois   | lambda
+geometric    | geom   | prob
+]
+.pull-right[
+  **Continuous Distribution**
 
-```{r , eval=FALSE}
-?Distributions
-```
+Distribution | R name | Parameters
+------------ | ------ | ----------
+chi-squared  | chisq  | df, ncp
+exponential  | exp    | rate
+F            | f      | df1, df2, ncp
+uniform      | unif   | min, max 
+normal       | norm   | mean, sd
+Student's t  | t      | df, ncp
+
+]
 
 ---
 
@@ -162,8 +159,8 @@ sample(x = c("H", "T"),
 
 ```{r, eval=FALSE}
 ddist (x, parameters)  # probability density of DIST evaluated at x.
-qdist (p, parameters)  # returns x for Pr(DIST(parameters)â¤ x) = p
-pdist(x, parameters)  # returns Pr(DIST(parameters) â¤ x)
+qdist (p, parameters)  # returns x for Pr(DIST(parameters)>= x) = p
+pdist(x, parameters)  # returns Pr(DIST(parameters) <= x)
 rdist(n, parameters)  # generates n random variables from DIST (parameters) 
 ```
 
@@ -293,7 +290,7 @@ $p(x) = p {(1-p)}^{x}$, for $x = 0, 1, 2, \ldots, 0 < p \le 1$.
 
 
 ---
-### 3.2.3.	 Negative Binomial Distribution
+### Negative Binomial Distribution
 
 - Density, distribution function, quantile function and random generation for the negative binomial distribution with parameters size and prob.
 
@@ -323,14 +320,14 @@ $$p(x) = \frac{\Gamma(x+n)}{\Gamma(n) x!} p^n (1-p)^x,$$
 for $x = 0, 1, 2, \ldots, n > 0$ and $0 < p \le 1$.
 
 - This represents the number of failures which occur in a sequence of Bernoulli trials before a target number of successes is reached. 
-
 - The mean is $\mu = n(1-p)/p$ and variance $n(1-p)/p^2$.
 
-
 ---
-### 3.2.4.	 Poisson Distribution
+
+### Poisson Distribution
 
 - Density, distribution function, quantile function and random generation for the Poisson distribution with parameter lambda.
+
 ```r
 dpois(x, lambda, log = FALSE)
 ppois(q, lambda, lower.tail = TRUE, log.p = FALSE)
@@ -345,6 +342,7 @@ rpois(n, lambda)
 - lambda : vector of (non-negative) means.
 - log, log.p: *logical*; if **TRUE**, probabilities p are given as log(p).
 - lower.tail: *logical*; if **TRUE** (default), probabilities are $P[X \le x]$, otherwise, $P[X > x]$.
+
 ---
 
 The Poisson distribution has density
@@ -359,9 +357,9 @@ $$p(x) = \frac{\lambda^x e^{-\lambda}}{x!},$$for $x = 0, 1, 2, \ldots,.$
 - `rpois` generates random deviates.
 ---
 
-## 3.3.	Built in continuous probability distributions
+## Built in continuous probability distributions
 
-### 3.3.1.	Uniform distribution
+### Uniform distribution
 
 Next, let’s move on to the Uniform distribution. 
 
@@ -394,7 +392,7 @@ runif(n = 10, min = -100, max = 100)
 
 ---
 
-## 3.3.2.	Exponential and Gamma distribution
+### Exponential distribution
 
 
 ```{r, eval=FALSE}
@@ -406,7 +404,7 @@ rexp(n, rate = 1)
 ```
 
 ---
-## 3.3.3.	Normal and t distribution
+### Normal distribution
 
 1. Normal distribution
 
@@ -416,7 +414,6 @@ pnorm(q, mean = 0, sd = 1, lower.tail = TRUE, log.p =FALSE)
 qnorm(p, mean = 0, sd = 1, lower.tail = TRUE, log.p = FALSE)
 rnorm(n, mean = 0, sd = 1)
 ```
----
 
 ```{r, out.width = "400px", echo=FALSE, fig.align='center'}
 knitr::include_graphics("normald.png")
@@ -424,14 +421,13 @@ knitr::include_graphics("normald.png")
 
 - Three different normal distributions with different means and standard deviations
 
+---
+
 **Argument	Definition**
 
 - `n`:	The number of observations to draw from the distribution.
 - `mean`:	The mean of the distribution.
 - `sd`:	The standard deviation of the distribution.
-
----
-
 - The Normal distribution is bell-shaped, and has two parameters: a mean and a standard deviation. 
 
 - To generate samples from a normal distribution in R, we use the function `rnorm()`
@@ -447,24 +443,6 @@ rnorm(n = 3, mean = -10, sd = 15)
 ```
 
 - Again, because the sampling is done randomly, you’ll get different values each time you run `rnorm()`
-
----
-
-## 3.3.4.	Chi-square and f distributions
-
-```{r, eval=FALSE}
-dchisq(x, df, ncp = 0, log = FALSE)
-pchisq(q, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)
-qchisq(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)
-rchisq(n, df, ncp = 0)
-```
-- computing values of 2000 random values with 5 degrees of freedom
-```{r, fig.dim=c(6,4)}
-x <- rchisq(20000, df = 5)
-hist(x, freq = FALSE, xlim = c(0,16), ylim = c(0,0.2))
-curve(dchisq(x, df = 5), from = 0, to = 15, 
-      n = 5000, col= 'red', lwd=2, add = T)
-```
 
 ---
 
@@ -487,50 +465,6 @@ set.seed(100)
 rnorm(3, mean = 0, sd = 1)
 rnorm(3, mean = 0, sd = 1)
 ```
----
-The Normal Distribtion
-- For the normal distribution, these functions are `pnorm`, `qnorm`, `dnorm`, and `rnorm`.
-pnorm is the R function that calculates the c. d. f.
-
-F(x) = P(X <= x)
-where X is normal. Optional arguments described on the on-line documentation specify the parameters of the particular normal distribution.
-Both of the R commands in the box below do exactly the same thing.
-
-pnorm(27.4, mean=50, sd=20)
-pnorm(27.4, 50, 20)
-
-
-They look up P(X < 27.4) when X is normal with mean 50 and standard deviation 20.
-Example
-Question: Suppose widgit weights produced at Acme Widgit Works have weights that are normally distributed with mean 17.46 grams and variance 375.67 grams. What is the probability that a randomly chosen widgit weighs more then 19 grams?
-
----
-
-Question Rephrased: What is P(X > 19) when X has the N(17.46, 375.67) distribution?
-
-Caution: R wants the s. d. as the parameter, not the variance. We'll need to take a square root!
-
-Answer:
-
-1 - pnorm(19, mean=17.46, sd=sqrt(375.67))
-
-
-Inverse Look-Up
-qnorm is the R function that calculates the inverse c. d. f. F-1 of the normal distribution The c. d. f. and the inverse c. d. f. are related by
-
-p = F(x)
-x = F-1(p)
-So given a number p between zero and one, qnorm looks up the p-th quantile of the normal distribution. As with pnorm, optional arguments specify the mean and standard deviation of the distribution.
-Example
-Question: Suppose IQ scores are normally distributed with mean 100 and standard deviation 15. What is the 95th percentile of the distribution of IQ scores?
-
-Question Rephrased: What is F-1(0.95) when X has the N(100, 152) distribution?
-
-Answer:
-
-qnorm(0.95, mean=100, sd=15)
----
-
 
 Density
 dnorm is the R function that calculates the p. d. f. f of the normal distribution. As with pnorm and qnorm, optional arguments specify the mean and standard deviation of the distribution.
@@ -555,11 +489,11 @@ This generates 1000 i. i. d. normal random numbers (first line), plots their his
 - The following examples illustrate the use of the R functions for computations involving statistical distributions:
 
 ```{r, eval=FALSE}
-rnorm(10) # draws 10 random numbers from a standard normal distribution
-rnorm(10, 5, 2) # draws 10 random numbers from a N(Âµ= 5,Î´ = 2) distribution
-dnorm(2) # return probability density of Standard normal distribution evaluated at z= 2.
-pnorm(0) # returns the value of a standard normal cdf at t =0
-qnorm(0.5) # returns the 50% quantile of the standard normal distribution
+rnorm(10) # draws 10 random numbers
+rnorm(10, 5, 2) # N(µ= 5,sigma = 2) distribution
+dnorm(2) # return pdf at z= 2.
+pnorm(0) # returns cdf at t =0
+qnorm(0.5) # returns the 50% quantile 
 ```
 
 
@@ -567,7 +501,7 @@ qnorm(0.5) # returns the 50% quantile of the standard normal distribution
 mysample <- rnorm(50) # generates random numbers
 mu <- mean(mysample) # computes the sample mean
 sigma <- sd(mysample) # computes the sample standard
-x <- seq(-4, 4, length = 500) # defines xâvalues for the pdf
+x <- seq(-4, 4, length = 500) # defines x values for the pdf
 options(digits=3)
 
 y <- round(dnorm(x, mu, sigma), digits=4) # computes the normal pdf
@@ -580,15 +514,13 @@ y
 
 - For a simulation to be repeatable we need to specify the type of random number generator and the initial state of the generator.
 
-- R has several kinds of generators, see `RNGkind()`
- 
-- The simplest way to specify the initial state or seed is to use, set.seed(seed)
+- The simplest way to specify the initial state or seed is to use, `set.seed(seed)`
  
 - The argument seed is a single integer value
 
 - Different seeds give different pseudo-random values
 
-- Calling set.seed() with the same seed produces the same results, if the sequence of calls is repeated exactly.
+- Calling `set.seed()` with the same seed produces the same results, if the sequence of calls is repeated exactly.
 
 - If a seed is not specified then the random number generator is initialized using the time of day.
 
@@ -612,92 +544,7 @@ runif(5)
 
 ---
 
-We can create z table using R as:
-
-```{r, eval=FALSE}
-library(pander)
-u=seq(0,3.09,by=0.01); p=pnorm(u)
-ztable=matrix(p,ncol=10, byrow=T); options(digits=4)
-rownames(ztable)=seq(0,3,b=0.1); colnames(ztable)=seq(0,0.09,by=0.01)
-pander(head(ztable,4))
-```
-
-- R has useful mechanism for determining p- values instead of searching through statistical tables and they can be easily achieved using the p(dist) and q(dist) functions. Some examples are shown below.
-
-```{r, eval=FALSE}
-2*(1-pnorm(1.96))# 2-tailed p-value for Normal distribution
-qnorm(0.975) # quantile
-2*pt(-2.43,df=13) # 2-tailed p-value for t distribution
-qt(0.025,df=13)
-```
-
----
-
-# Examining the distribution of a set of data 
-
-- Given a (univariate) set of data we can examine its distribution in a large number of ways. 
-
-- The simplest is to examine the numbers.
-
-- Two slightly different summaries are given by summary and fivenum and a display of the numbers by stem (a stem and leaf plot).
-
-- Given a (univariate) set of data we can examine its distribution in a large number of ways. 
-```{r, eval=FALSE}
-    attach(faithful)   
-    summary(eruptions) 
-```
-     
-R has a function hist () to plot histograms. 
-```{r, eval=FALSE}
-      hist(eruptions) 
-      hist(eruptions, seq(1.6, 5.2, 0.2), prob=TRUE)
-      lines(density(eruptions), col="red")
-      plot (density(eruptions))
-```
-
-Quantile-quantile (Q-Q) plots can help us examine this more carefully. 
-```{r, eval=FALSE}
-qqnorm(eruptions)
-qqline(eruptions) 
-```
-
----
-
-```{r, eval=FALSE}
-plot(ecdf(eruptions), do.points=FALSE,verticals=TRUE)
-```
-
-```{r, eval=FALSE}
-long <- eruptions[eruptions > 3]
-plot(ecdf(long), do.points=FALSE, verticals=TRUE)
-x <- seq(3, 5.4, 0.01)
-lines(x, pnorm(x, mean=mean(long),sd=sqrt(var(long))), lty=3)
-par(pty="s") # arrange for a square figure region;
-qqnorm(long)
-qqline(long)
-```
-
-- Finally, We might want a more formal test of agreement with normality (or not).  
-- R provides the Shapiro-Wilk test 
-
-```{r, eval=FALSE}
-shapiro.test(eruptions) 
-```
-
-Shapiro-Wilk normality test
-W = 0.8459, p-value = 9.036e-16
-
-- Here the test statistic was clearly significant at P =9.036e-16 which rejects the null hypothesis that these data are from a normal distribution. 
-
-### The Kolmogorov-Smirnov test 
-
-```{r, eval=FALSE}
-ks.test(eruptions, "pnorm", mean = mean(eruptions), sd = sqrt(var(eruptions)))
-```
-
----
-
-# Simulating the Sample Distribution of the Mean
+### Simulating the Sample Distribution of the Mean
 
 - Simulation is a numerical technique for conducting experiments on the computer. 
 - It uses to compare results of an inference under different assumptions
@@ -729,7 +576,6 @@ mean(data )
 sd(data )
 ```
 
-
 - Those results are very close to our theoretical expectation.
 
 - Let's look at histogram of our means.
@@ -745,398 +591,3 @@ plot (density(data))   #Density plot of data
 curve(dnorm(x , 100, 3), 88, 112, col = 'red', lty =2, add = TRUE )
 ```
  
----
-
-# One sample tests with R
-
-- The one sample t-test and CI are parametric methods appriopriate for examining a single numeric variable.
-
-- The R function `t.test()` can be used to perform both one and two sample t-tests on vectors of data. 
-
-- The function contains a variety of options and can be called as follows:
-```{r, eval=FALSE}
-t.test(x, y = NULL, alternative = c("two.sided", "less", "greater"), mu = 0, paired=FALSE, var.equal = FALSE, conf.level = 0.95)
-```
- 
-- Here x is a numeric vector of data values and y is an optional numeric vector of data values.
-
-- If y is excluded, the function performs a one-sample t-test on the data contained in x, if it is included it performs a two-sample t-tests using both x and y. 
-
-- The option mu provides a number indicating the true value of the mean (or difference in means if you are performing a two sample test) under the null hypothesis. 
-
----
-
-- The option alternative is a character string and must be one of the following: âtwo.sidedâ (which is the default), âgreaterâ or âlessâ.
-For example: 
-```{r, eval=FALSE}
-t.test(x, alternative = "less", mu = 10)
-```
-
- performs a one sample t-test on the data contained in x where the null hypothesis is that m=10 and the alternative is that m < 10.
-
-- The option paired indicates whether or not you want a paired t-test (TRUE = yes and FALSE = no).  If you leave this option out it defaults to FALSE. 
-
-- The option var.equal is a logical variable indicating whether or not to assume the two variances as being equal when performing a two-sample t-test. 
-
-- If TRUE then the pooled variance is used to estimate the variance otherwise the Welch (or Satterthwaite) approximation to the df is used.
-
-- If you leave this option out it defaults to FALSE.
-
-- Finally, the option conf.level determines the confidence level of the reported confidence interval for in the one-sample case and m1âm2 in the two-sample case.
-
----
-
-# One sample t test 
-
-- Consider the following set of data
-```{r}
-y=c(79.98,80.04,80.02,80.04,80.03,80.03,80.04,79.97,80.05,80.03,80.02,80.00, 80.02) 
-```
-   
-One sample t test
-$$H_0 : \mu_o=80 \ ,Vs. \, Ha : \mu_a \neq 80$$ 
-```{r, eval=FALSE}
-t.test(y, mu = 80) #Or
-t.test(y, mu = 80, alternative="less")
-```
-
-data:  y
-t = 3.1, df = 12, p-value = 0.009
-alternative hypothesis: true mean is not equal to 80
-95 percent confidence interval:
- 80.01 80.04
-sample estimates:
-mean of x 
-    80.02
-    
----
-
-# Two sample tests
-
-- Consider the treatment and control group data.
-```{r}
-Control <- c(91, 87, 99, 77, 88, 91)
-Treat <- c(101, 110, 103, 93, 99, 104)
-```
-
-variances unknown, equal variance
-$$Test: H_o: \mu_1= \mu_2 \, \,Vs. \, \, H_a : \mu_1 \neq \mu_2$$
-```{r, eval=FALSE}
-t.test(Control,Treat,var.equal=TRUE, alternative= "two.sided")
-```
-
-- variances unknown, equal variance
-      $$Test: H_o: \mu_1= \mu_2 \, \,Vs. \, \, H_a : \mu_1 < \mu_2$$
-```{r, eval=FALSE}
-t.test(Control,Treat, var.equal = TRUE, alternative = "less")
-```
-
-- variances unknown, not assumed equal variance
-```{r, eval=FALSE}
-t.test(Control,Treat,alternative = "two.sided")
-```
-
-$$Test: H_o: \mu_1= \mu_2 \, \,Vs. \, \, H_a : \mu_1 \neq \mu_2$$
-variances unknown, not assumed equal variance
-
-$$Test: H_o: \mu_1= \mu_2 \, \,Vs. \, \, H_a : \mu_1 < \mu_2$$
-```{r, eval=FALSE}
-t.test(Control,Treat,var.equal = F, 
-       alternative = "less")
-```
-      
----
-
-# Paired
-
-- The paired sample t-test and confidence interval are valid if 
-
-- The sample size is large enough, n > 30
-
-- The differences are approximately normal.
-
-- Consider the baseline and caffeine data sets.
-
-```{r, eval=FALSE}
-baseline <- c(6.37,5.69,5.58,5.27,5.11,4.89,4.70,3.53) 
-caffeine <- c(4.52,5.44,4.70,3.81,4.06,3.22,2.96,3.20)
-```
-
-To test the hypothesis $H0 : \mu_D = 0 \ , Vs. \ , H_A : \mu_D \neq 0$. 
-
-```{r, eval=FALSE}
-t.test( baseline, caffeine, paired=TRUE) 
-```
-
-To test the hypothesis $H0 : \mu_D = 0 \ , Vs. \ , H_A : \mu_D < 0$.
-
-```{r, eval=FALSE}
-t.test(baseline, caffeine, paired=TRUE, alternative="less")
-```
-
-To test the hypothesis $H0 : \mu_D = 0 \ , Vs. \ , H_A : \mu_D > 0$. 
-
-```{r, eval=FALSE}
-t.test(baseline, caffeine,paired=TRUE, alternative="greater")
-```
-
----
-
-# summary
-
-- `var.test` to compare two variances (Fisherâs F).
-
-- `t.test` to compare two means (Studentâs t).
-
-- `wilcox.test` to compare two means with non-normal errors (Wilcoxonâs rank test).
-
-- `prop.test (binomial test)` to compare two proportions.
-
-- `cor.test (Pearsonâs or Spearmanâs rank correlation)` to correlate two variables.
-
-- `chisq.test (chi-square test) or fisher.test (Fisherâs exact test)` to test for independence in contingency tables.
-
-
----
-
-# t-test and ANOVA 
-
-## T-test:
-
-- Independent t-test.
-
-- Paired t-test.
-
-## F-test:
-
-- One-way Analysis of Variance (ANOVA).
-
-- Two-way Analysis of Variance (ANOVA)
-
----
-
-# 1.	t-test:
-
-- To test difference in means for two small samples (n < 30) from populations that are approximately normal.
-  + (The two small samples are representatives of their parent populations).
-
-- To test the linear dependence to check if the two small samples are unrelated/ independent.
-
-- Unrelated/Independent?
-
-### 1. t-test:
-
----
-
-### 1.1. Independent samples t-test
-
-- is applied when we want to test differences between the means/averages of two completely independent groups (one does not affect the other).
-
-- For instance, Ty goes on a three-mile run with his kids every morning. 
-- He wanted to test if his sonâs running time (in minutes) is significantly lower than his daughterâs â meaning the boy can run faster. 
-- To test the theory, he recorded their running times everyday for a week as given in the following table:
-
-|Sonâs run (in minutes)| 20|  22| 16|	16|	15|	17|	16|
-|--:|--:|--:|--:|--:|--:|--:|--:|
-|girlâs run (in minutes)| 30|  26|	24|	19|	17|	19|	21|
-
-
----
-
-
-First step, create the running time records in Rstudio.
-# Independent t-test
-```{r}
-Kids <- c (rep(c("Son","Girl"), each =7))
-Minutes <- c(20,22,16,16,15,17,16, 30,26,24,19,17,19,21)
-RunData<- data.frame(Kids, Minutes)
-```
-
-- We name the independent variables as 'Son' and 'Daughter'. 
-- Since R reads data alphabetically, the daughterâs data is always processed before sonâs, as the letter
-- D goes before S in the alphabet; 
-- Thus, our updated alternative hypothesis Ha now has become $\mu \, (daughter) > \mu \, (son)$, which is still equivalent to Tyâs theory â
-"his sonâs running time is significantly lower than his daughterâs" .
-
-$$H_0: \mu \, (daughter) = \mu \, (son)$$
-$$H_a: \mu \, (daughter) > \mu \, (son)$$
-```{r, eval=FALSE}
-t.test(Kids, Minutes, data=RunData, alternative='greater')
-```
-
----
-
-- From the result, t-statistic is 2.0337, and p-value = 0.03485, meaning it is less than 0.05 (using the 0.05 significance level) ; therefore, H0 is rejected. There is enough sufficient evidence to support Ha that the daughter has a higher mean running time than the son.
-
-- In addition, R also calculates both the means of the daughterâs running time
-(22.29 minutes) and sonâs (18.14 minutes); hence, we can conclude that Tyâs son
-is faster when he runs the three-mile route! Letâs view it in visualization!
-
-```{r, eval=FALSE}
-Library(ggplot)
-Library (dplyr)
-RunData %>% group_by(kids) %>%
-Summrise(AvMin=mean(minutes))%>%
-ggplot(aes(kids, AvMin))+ geom_bar(stat='identity', aes(fill=kids))
-
-```
-
-- Last but not least, sample sizes for the two groups *sometimes* are not equally
-the same. For example, what if Tyâs daughter got busy one morning and could not
-join the morning run with her brother and father during the week? The sample
-size for her running data would be 6 instead of 7!
-
-- If groups sizes differ greatly (Homogeneity of Variance is violated), that can
-cause the null hypothesis to be falsely rejected (type I error: reject H0 when it is in fact true!)
-
----
-
-## 1) t-test
-
-### 1.2. Paired t-test:
-
-- is applied when we have two dependent (paired) samples from just one population and want to see if they are significantly different - useful for âbefore and afterâ situation.
-
-Example, Ty wants to test the difference in means of his kidsâ heart rates before and after the three-mile run.
-
-Heart rate (in bpm)
-Before 	After 
-Son	72	90
-Girl 	81	96
-
-Import the dataset into R for our paired t-test analysis.
-
-# paired test
-
-```{r, results=FALSE}
-at<- c(rep(c('Son', 'Girl'), each=2))
-bpm<-c(72,81,90,96)
-heartrate<-data.frame(at, bpm)
-```
-
-
-$$H_0: \mu \, (before) = \mu \, (after)$$
-$$H_a: \mu \, (before) \neq \mu \, (after)$$
-```{r, eval=FALSE}
-t.test(bpm=at , data = heartrate, alternative="two.sided", paired=F)
-```
-
-With p-value = 0.05772 (that is greater than 0.05), we fail to reject H0 as we
-do not have enough sufficient evidence to support Tyâs kids heart rates differ
-significantly (statistically) before and after the 3-mile run.
-However, the result also shows that the mean of the differences is 16.5 bpm, and
-if we visualize our paired t-test, we can see the mean bpm from âafterâ running is
-higher than âbeforeâ. Our hearts tend to beat faster per minute after we exercise!
-heartrate%>%group_by(at)%>%summarise(avebpm=mean(bpm))%>%
-ggplot(aes(at, avebpm))+geom_bar(stat=âidentityâ, aes(fill=at))
-As a final point, sample sizes for the two measurements in paired t-test are
-always identical (equal variances), unlike independent t-test.
-
-2.	F-test:
-Analysis of Variance (ANOVA)
-works exactly like t-test but with more than two groups.
-H0: Î¼ (1) = Î¼ (2) = Î¼ (3)= â¦ = Î¼ (n)
-Ha: at least two means are different.
-Assumptions of ANOVA: Each groups of samples are normally
-distributed , have equal variances, and are independent.
-2. F-test:
-2.1. One-way ANOVA
-is used to analyze the difference between the means of more than two groups.
-Assume the Dependent variable (DV) is how many miles that a car can travel per gallon of fuel (mpg), and the Independent variable (IV) is different brands of cars . Apply an analysis of variance to test if the means are significantly different between them .
-Toyota 4runer	Subaru crosstrek	Lexus RX350
-19	28	20
-17	30	23
-16	32	25
-20	33	24
-17	31	21
-19	27	22
-15	29	24
-21	30	21
-
-Letâs let R read our mpg data.
-Car<-c(reap(c(âtoyotaâ,âsubaruâ,âlexusâ), each=8))
-Mpg<- c(19,17,16,20,17,19,15,21, 28,30,32,33,31,27,29,30, 20,23,25,24,21,22,24,21)
-mpgData<-data.frame(car,mpg)
-
-H0: Î¼ (Toyota) = Î¼ (Subaru) = Î¼ (Lexus)
-Ha: at least two means are different.
-
-model<-aov(mpg~car, mpgData)
-summary (model)
-TukeyHSD(model)
-
-With our F-statistic is 77.17 and p-value is less than 0.05 (= 2.1e-10), we reject
-null hypothesis, and there is enough evidence to claim that at least two means are different.
-.... but you may ask which means are different? The âTukeyHSD(model)â syntax
-helps us clarify that. Since the âp-adjâ values between each pair of cars are < 0.05, we can state that there is a significant difference in average of mpg between
-Subaru and Lexus, Toyota and Lexus, and Toyota and Subaru, with Toyota 4Runner and Subaru differ the most in terms of mpg ( âdiffâ= 12.0).
-
-mpgData%>%group_by(car)%>%summarise(Avempg=mean(mpg))%>%
-ggplot(aes(car, Avempg))+geom_bar(stat=âidentityâ, aes(fill=car))
-Last but not least, if the confidence interval does not contain value 0 then there is
-a significant difference between two variablesâ averages.
-For example, the lower bound (lwr) and upper bound (upr) of Subaru-Lexusâ
-confidence interval are (5.0402, 9.9598), which do not consist of 0.
-
-2.	F-test:
-2.2. Two-way ANOVA:
-is applied when we want to analyze how two Independent
-variables (IV), in combination, affect a Dependent variable (DV) because we want to study if there is an interaction between the two IVs on our DV.
-For instance, we want to know if the carsâ mpg values mentioned above will differ when driven on highway and in the city.
-The IVs now are car brands (Toyota, Subaru, and Lexus) and
-where they are being driven (in the city or on the highway), with our DV is mpg values.
-	Toyota 4runer	Subaru crosstrek	Lexus RX350
-City 	14	28	20
-	12	26	21
-	15	26	19
-Highway 	19	33	27
-	18	32	26
-	19	33	24
-
-
-Here is how to create a two-way ANOVA data frame in R.
-
-where<- c(reap(c(âCityâ, âHighwayâ), each=9)
-brand<-c(reap(c(âtoyotaâ,âsubaruâ,âlexusâ), each=3))
-mpg2<-c(14,12,15,19,18,19, 28,26,26,33,32,33, 20,21,19,27,26,24)
-Twoway<- data.frame(where, brand, mpg2)
-We now have three different hypotheses to test, with the first one is:
-H0: Î¼ (Toyota) = Î¼ (Subaru) = Î¼ (Lexus)
-Ha: at least two means are different.
-
-model1<- aov(mpg2~where+brand+where*brand, Twoway)
-summary(model1)
-P-value of âbrandâ is 4.12e-10; we can claim that there is a significant difference of effect between driving the Toyota 4Runner, Subaru Crosstrek, and Lexus RX350 in terms of mpg, at least for two of the brands.
-
-Next, our second hypothesis is:
-H0: Î¼ (city) = Î¼ (highway)
-Ha: Î¼ (city) â  Î¼ (highway)
-Similar to our variable âbrandâ, âwhereâ we drive our cars is another factor
-that does have a significant effect on the mean difference of our miles per
-gallon because the p-value is less than 0.05 (= 2.28e-07).
-In fact, we obtain higher mpg on highways than in the cities for majority of
-cars out there in the market.
-Last but not least, our last hypothesis is:
-H0: there is no interaction between what brand of car you drive and
-where you drive it.
-Ha: there is an interaction between what brand of car you drive and
-where you drive it.
-Our test statistic value is 0.0304 and p-value is 0.743. We fail to reject the
-null hypothesis, and there is not enough evidence to support the claim that
-there is an interaction between the cars brands and where you drive your car.
-TukeyHSD(model1)
-Furthermore, the Tukey test helps us figure out where the differences are lying the most, which specific groupsâ means are different. It compares all possible pairs of means (every single one of them).
-The ggplot graph below also helps us understand the results better!
-
-
-Graphmpg<-Twoway%>% group_by(where, brand)%>%summarise(avempg2=mean(mpg2, se=sd(mpg2)/sqrt(length(mpg))))
-
-Key Takeaways:
-Independent t-test: if samples are from two populations.
-Paired t-test: if samples are from one population, useful in the
-âbefore-afterâ scenario.
-One-way ANOVA: compare means for more than two groups.
-Two-way ANOVA: compare means for each factor and test if
-there is an interaction between factors for more than two
-groups.
-
