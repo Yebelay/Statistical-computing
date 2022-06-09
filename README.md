@@ -29,8 +29,8 @@ This repository contains lecture notes for statistical computing for undergradua
 
 ### Chapter 3. Probability and Sampling Distributions 
 
-  * [Lecture Note (Slide)]() 
-  * [md file]()
+  * [Lecture Note (Slide)](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%203/Probability%20and%20Sampling%20Distributions.pdf) 
+  * [md file](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%203/Chapter%203%20markdown.md)
 
 ### Chapter 4. Descriptive statistics 
 
