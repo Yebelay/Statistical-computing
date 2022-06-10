@@ -34,8 +34,8 @@ This repository contains lecture notes for statistical computing for undergradua
 
 ### Chapter 4. Descriptive statistics 
 
-  * [Lecture Note (Slide)]()
-  * [md file]()
+  * [Lecture Note (Slide)](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%204/Descriptive%20Statistics.pdf)
+  * [md file](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%204/Chapter%204%20markdown.md)
 
 ### Chapter 5.	Parametric and Non-parametric tests 
 
