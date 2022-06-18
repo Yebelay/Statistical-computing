@@ -39,8 +39,8 @@ This repository contains lecture notes for statistical computing for undergradua
 
 ### Chapter 5.	Parametric and Non-parametric tests 
 
-* [Lecture Note (Slide)]()
-* [md file]()
+* [Lecture Note (Slide)](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%205/Parametric%20and%20Non-parametric%20tests.pdf)
+* [md file](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%205/Chapter%205%20markdown.md)
 
 ### Chapter 6. Statistical Models in R 
 
