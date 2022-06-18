@@ -1,9 +1,5 @@
 # Parametric and Non-parametric tests
 
-Yebelay Berehan 
-Biostatistician
-yebelay.ma\@gmail.com
-
 ```{r}
 library(datasets)
 library(ggplot2)
