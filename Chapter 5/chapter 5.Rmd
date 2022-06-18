@@ -1,16 +1,53 @@
-# Parametric and Non-parametric tests
+---
+title: 'Parametric and Non-parametric tests'
 
-Yebelay Berehan 
-Biostatistician
-yebelay.ma\@gmail.com
-
-```{r}
+author: "Yebelay Berehan <br><span style = 'font-size: 50%;'>Biostatistician </span>"
+institute: |
+           [<span style = 'font-size: 80%;'> <span style="color:cyan">yebelay.ma\@gmail.com</span></span>](yebelay.ma\@gmail.com)
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    css: [default,  rladies,xaringan-themer.css, rladies-fonts]
+    nature:
+     # highlightStyle: googlecode
+      highlightLines: true
+      #highlightLanguage: ["r"]
+      ratio: "14:9"
+     # highlightLines: true
+      highlightSpans: true
+      highlightStyle: github
+      countIncrementalSlides: false
+      titleSlideClass: ["center","middle"]
+  includes:
+    in_header: columns.tex
+---
+```{r setup, include=FALSE, purl=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(comment = "##")
 library(datasets)
 library(ggplot2)
 library(dplyr)
 library(pander)
 ```
 
+```{r xaringan-logo, echo=FALSE}
+xaringanExtra::use_logo(image_url = "logo1.png", 
+  exclude_class = c("inverse", "hide_logo"),  width = "90px",height = "85px")
+```
+
+```{r xaringan-themer, include=FALSE}
+library(xaringanthemer)
+style_duo_accent(
+  primary_color = "#562457", 
+  secondary_color = "#0556AA",
+    text_font_size = "23px",
+  background_color = "#FFFFFF",
+  code_inline_background_color = '',
+  code_inline_color = "#0000FF",
+  code_font_size = "0.9em", 
+  footnote_color = "blue",
+  footnote_position_bottom = "0.1em")
+```
 
 ### For statistical tests, we use two types of variables:
 
