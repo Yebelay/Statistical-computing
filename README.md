@@ -44,5 +44,5 @@ This repository contains lecture notes for statistical computing for undergradua
 
 ### Chapter 6. Statistical Models in R 
 
-* [Lecture Note (Slide)]()
-* [md file]()
+* [Lecture Note (Slide)](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%206/Ch-6%20Statistical%20Models%20in%20R.pdf)
+* [md file](https://github.com/Yebelay/Statistical-computing/blob/main/Chapter%206/Chapter%206%20markdown.md)
