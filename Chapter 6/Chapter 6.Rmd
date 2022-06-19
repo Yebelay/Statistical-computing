@@ -1,5 +1,29 @@
-# Statistical Models in R 
+---
+title: 'Statistical Models in R '
 
+author: "Yebelay Berehan <br><span style = 'font-size: 50%;'>Biostatistician </span>"
+institute: |
+           [<span style = 'font-size: 80%;'> <span style="color:cyan">yebelay.ma\@gmail.com</span></span>](yebelay.ma\@gmail.com)
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    css: [default,  rladies,xaringan-themer.css, rladies-fonts]
+    nature:
+     # highlightStyle: googlecode
+      highlightLines: true
+      #highlightLanguage: ["r"]
+      ratio: "14:9"
+     # highlightLines: true
+      highlightSpans: true
+      highlightStyle: github
+      countIncrementalSlides: false
+      titleSlideClass: ["center","middle"]
+  includes:
+    in_header: columns.tex
+---
+```{r setup, include=FALSE, purl=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(comment = "##")
 #### Load the libraries
 library("ggplot2")
 library("predict3d")
@@ -10,6 +34,26 @@ library("DescTools") ## Needed for normality testing
 library("nortest") ## Needed for normality testing
 library("lmtest") ## Need for heteroskedasticity testing
 library(corrr)
+```
+
+```{r xaringan-logo, echo=FALSE}
+xaringanExtra::use_logo(image_url = "logo1.png", 
+  exclude_class = c("inverse", "hide_logo"),  width = "90px",height = "85px")
+```
+
+```{r xaringan-themer, include=FALSE}
+library(xaringanthemer)
+style_duo_accent(
+  primary_color = "#562457", 
+  secondary_color = "#0556AA",
+    text_font_size = "23px",
+  background_color = "#FFFFFF",
+  code_inline_background_color = '',
+  code_inline_color = "#0000FF",
+  code_font_size = "0.9em", 
+  footnote_color = "blue",
+  footnote_position_bottom = "0.1em")
+```
 
 ### Introduction
 
@@ -21,6 +65,7 @@ library(corrr)
 
 - linear regression model is called the "Ordinary Least Squares" or OLS model because it minimizes the squared errors (e.g., distance from the best-fit line). 
 
+---
 1. Assumptions about the form of the model: 
    - The linearity assumption. examining the scatter plot of Y versus X. 
 2. Assumptions about the errors: $e \sim Niid(0,\sigma^2)$.
@@ -36,6 +81,7 @@ library(corrr)
      - equally reliable and have approximately equal role in determining the regression results and in influencing conclusions. 
 
 - diagnostic methods to check the violation of regression assumption are based on the study of model residuals with the help of various types of graphics. 
+---
 
 ### Simple linear regression
 
@@ -49,6 +95,8 @@ $$\large Y_i = \beta_0 + \beta_1 X_{1i} + \epsilon$$
 * $\beta_0$ denotes the Y-intercept when $X$ is zero
 * $\beta_1$ denotes the slope or the change in $Y$ with a 1-unit change in $X$
 * $\epsilon$ denotes the error or residuals
+
+---
 
 #### Diabets data
 
@@ -69,6 +117,7 @@ diabetes1 <- read_csv("diabetes.data.csv")
 * Age: Age (years)
 * Outcome: Class variable (0 = no diabetes or 1 = diabetes)
 
+---
 ### Correlation
 -	Correlation analysis is concerned with measuring whether two variables are associated with each other. 
    -	If two variables tend to change together in the same direction, they are said to be positively correlated. 
@@ -82,6 +131,7 @@ diabetes1 <- read_csv("diabetes.data.csv")
   fashion(decimals = 2, na_print = ".") 
 ```
 
+---
 ### Visualize the association using scatter plot
 - Let's look at how Age is related to Glucose level by plotting their relationship.  
 - As Age increases, the Glucose level also increases. There appears to be a positive relationship between Age and Glucose level. 
@@ -90,6 +140,7 @@ diabetes1 <- read_csv("diabetes.data.csv")
 ggplot(diabetes1, aes(x = Age, y = Glucose)) +
   geom_point() +  stat_smooth()
 ```
+---
 - Then, we update our linear regression model's structural form:
 
 $$Glucose_{i} = \beta_0 + \beta_1 Age_{i} + \epsilon,$$
@@ -99,12 +150,15 @@ $$Glucose_{i} = \beta_0 + \beta_1 Age_{i} + \epsilon,$$
 - We will use the `lm()` function with Glucose level as the $Y$ variable and Age as the $X$ variable. 
 - By using the `lm()` function, we can construct the linear regression model: `lm(Glucose ~ Age, data = diabetes.data)`. 
 
+---
+
 Here is how we put all of this together in R:
 
 ```{r, warning = FALSE, message = FALSE}
 linear.model1 <- lm(Glucose ~ Age, data = diabetes1)
 summary(linear.model1)
 ```
+---
 
 - $\beta_{1}$ coefficient is in the linear regression output as `Age`, which is `0.71642`.
 
@@ -114,6 +168,7 @@ summary(linear.model1)
 ### Generate the 95% CI
 confint(linear.model1)
 ```
+---
 
 ### Interpret the linear regression output
 
@@ -125,6 +180,7 @@ as_gt(model1) %>%
   gt::tab_header("Table 2. Linear regression model") %>%
   gt::tab_options(table.align='center')
 ```
+---
 
 - The `Intercept` denotes the $Y$ intercept when $X$ is equal to zero. In this case, it would be where Glucose level would be on the linear plot when Age is equal to zero, which is 97.08-units of Glucose.
 
@@ -136,7 +192,7 @@ as_gt(model1) %>%
 - The `Adjusted R squared` denotes the amount of data that are explained by the linear regression model. 
 
 - In other words, the current linear regression model explains 6.8% of the data.
-
+---
 ### Visualize predicted model
 
 - We can plot the linear form of the model against the actual data using the `ggPredict()` function. 
@@ -146,6 +202,7 @@ as_gt(model1) %>%
 ggPredict(linear.model1, digits = 1, show.point = TRUE,
           se = TRUE, xpos = 0.5)
 ```
+---
 
 - Here is a version without the scatter plot.
 ```{r, warning = FALSE, message = FALSE, fig.align='center', fig.dim=c(7,5)}
@@ -153,6 +210,7 @@ ggPredict(linear.model1, digits = 1, show.point = FALSE,
           se = TRUE, xpos = 0.5)
 ```
 
+---
 
 ### Multiple regression: Adding a confounder
 
@@ -170,10 +228,14 @@ $$Glucose_{i} = \beta_0 + \beta_1 Age_{i} + \beta_2 Pregnancy History_{i} + \eps
 
 where $Glucose_{i}$ denotes the expected Glucose level for subject $i$ given the Age of subject $i$ controlling for Pregnancy History of subject $i$. 
 
+---
 ```{r, warning = FALSE, message = FALSE}
 linear.model2 <- lm(Glucose ~ Age + pregnancy.history, data = diabetes1)
 summary(linear.model2)
 ```
+
+
+---
 
 - We can present the model output into a table.
 
@@ -186,7 +248,7 @@ as_gt(model2) %>%
 ```
 
 - You can see that the `Age` coefficient is slightly different from our first model. It is 0.76 with a 95% CI of 0.57, 0.95. Compare this to the previous model's result, which was 0.72; 95% CI: 0.53, 0.90. 
-
+---
 ```{r, warning = FALSE, message = FALSE}
 #### Merge the two linear regression model's outputs
 model1 <- tbl_regression(linear.model1, intercept = TRUE)
@@ -200,7 +262,7 @@ as_gt(table1) %>%
 
 - Model 1 is considered the crude model or the unadjusted model. 
 - Model 2 is the adjusted model because it is adjusting based on the Pregnancy History confounder. 
-
+---
 - Notice that the $\beta_{1, unadjusted}$ is 0.72 which is lower than the $\beta_{1, adjusted}$ result which is 0.76. 
 
 - Additionally, the `Adjusted R squared` is higher in model 2 (7.35%) compared to model 1, which was 6.82%. 
@@ -212,7 +274,7 @@ ggPredict(linear.model2, digits = 1, show.point = FALSE,
           se = TRUE, xpos = 0.5)
 ```
 - You can derive the difference between the groups with a history of pregnancy and without a history of pregnancy by substracting 102 - 94.5, which is 7.5, the $\beta_{2}$ for `pregnancy.history`. 
-
+---
 
 - We can see that the group that had a history of pregnancy is lower than the group that did not have a history of pregnancy. 
 
@@ -226,7 +288,7 @@ ggPredict(linear.model2, digits = 1, show.point = FALSE,
 - You can visualize this on the plot; the linear lines do not cross and remain constant across all ranges of Age.
 
 - But there is a positive correlation betwteen Age and Glucose level. 
-
+---
 ### Evaluate residual plots
 
 - It is good practice to look at the residuals of the regression model to make sure that the assumptions hold. 
@@ -236,6 +298,7 @@ ggPredict(linear.model2, digits = 1, show.point = FALSE,
 ```{r, warning = FALSE, message = FALSE, fig.dim=c(6,4), fig.align='center'}
 plot(linear.model1$res ~ linear.model1$fitted)
 ```
+---
 
 - Upon visual inspection,there doesn't appear to be any evidence of heteroskedasticity. we can see that the residuals are uniform across the "fitted" values. 
 
@@ -249,7 +312,7 @@ bptest(linear.model1)
 - The p-value is 0.1169, we fail to reject the null that the variance of the residuals are constant. 
 - If, there was heteroskedasticity, we could address this by estimating robust standard errors. 
 
-
+---
 - We can also evaluate if the residuals are normally distributed. 
 - We can generate a histogram and a Q-Q plot. 
 - The historgram has a slight left skew and the Q-Q plot has its tails deviate from the neutral line. 
@@ -260,7 +323,7 @@ hist(linear.model1$res); qqnorm(linear.model1$res);
 qqline(linear.model1$res, col = "2", lwd = 1, lty = 1)
 ```
 - You only need to use one of these tests. They will generally give the same results. 
-
+---
 - We can also test for the normality of the residuals. 
 - Common tests of normality include the Shapiro-Wilk's test, and the Kolmogorov-Smirnov test. 
 
@@ -269,6 +332,8 @@ shapiro.test(linear.model1$res)
 lillie.test(linear.model1$res)
 ```
 - Despite not being normally distributed, the linear regression model is pretty robust to violations of this assumption. 
+
+---
 
 ## Logistic regression model
 The structural form of the logistic regression model:
@@ -281,6 +346,8 @@ $$logit(p_i) = ln(\frac{p_i}{1 - p_i}) = \beta_0 + \beta_1 X_{1i}$$
 * $\beta_1$ denotes the slope or the change in $Y$ with a 1-unit change in $X$
 * $p_{i}$ denotes the probability of the event occurring
 
+---
+
 - The logistic regression model is a predictive model for binary data.
 
 - Hence, the logistic regression model can generate probabilities that a sample will have the discrete outcome given an input variable(s). 
@@ -290,7 +357,7 @@ $$logit(p_i) = ln(\frac{p_i}{1 - p_i}) = \beta_0 + \beta_1 X_{1i}$$
 - Hence, the probability range of a logistic regression model is between 0 and 1. 
 
 - Additionally, the logistic regression can include multiple predictors which can be controlled or adjusted in a multivariable logistic regression model. 
-
+---
 ```{r, message = FALSE, warning = FALSE, fig.align='center', fig.dim=c(6,4)}
 library(LaplacesDemon)
 x <- -10:10
@@ -299,7 +366,7 @@ plot(x, prob, type = "l",
      main = "Logistic regression plot", 
      ylab = "Probability", xlab = "Values of X")
 ```
-
+---
 #### Example - Logistic regression 
 
 - We'll use the `mtcar` data to build our logistic regression model.
@@ -316,11 +383,14 @@ data1 <- within(mtcars, {
 # head(data1)
 ```
 
+---
+
 ### Odds ratio calculation
 
 ```{r, message = FALSE, warning = FALSE}
 oddsratio(data1$vs, data1$am, conf.level = 0.95, method = "wald")
 ```
+---
 
 - Using the odds ratio, vehicles with a "V" engine had a 2 times higher odds of having an automatic transmission (95% CI: 0.47, 8.40) compared to vehicles with a straight engine. 
 
@@ -334,12 +404,14 @@ oddsratio(data1$vs, data1$am, conf.level = 0.95, method = "wald")
 
 - We need to exponentiate this to get the odds ratio using the `exp()` command.
 
+---
 ```{r, message = FALSE, warning = FALSE}
 logit1<- glm(formula = am ~ vs, data = data1, 
              family = "binomial"(link = "logit"))
 summary(logit1)
 ```
 
+---
 - According to the logistic regression model, vehicles with an "V" engine had a 2.0 times higher odds of having an automatic transmission (95% CI: 0.48, 8.76) compared to vehicles with a straight engine; this is not statistically significant since the odds ratio crosses the null or OR = 1. 
 
 ```{r, message = FALSE, warning = FALSE}
@@ -347,6 +419,8 @@ confint(logit1)### Generate the 95% CI
 exp(coef(logit1))     ### Odds ratio
 exp(confint(logit1))  ### 95% CI (odds ratio)
 ```
+
+---
 
 ### Multivariable logistic regression model
 
@@ -358,13 +432,14 @@ $$logit(p_i) = ln(\frac{p_i}{1 - p_i}) = \beta_0 + \beta_1 X_{1i} + \beta_2 X_{2
 
 $$logit(p_i) = ln(\frac{p_i}{1 - p_i}) = \beta_0 + \beta_1 (vs)_{i} + \beta_2 (wt)_{i}$$
 where `vs` is the engine type and `wt` is the vehicle weight. 
+---
 
 ```{r, message = FALSE, warning = FALSE}
 logit2 <- glm(formula = am ~ vs + wt, data = data1, 
               family = "binomial"(link = "logit"))
 summary(logit2)
 ```
-
+---
 - In this multivariable logistic regression model, the association between engine type `vs` and transmission type `am` is much lower (OR = 0.01; 95% CI: 0.000005, 0.048) controlling for vehicle weight `wt` .
 
 - Controlling for the vehicle's weight reduced odds of the association between engine type `vs` and transmission type `am`.
@@ -374,6 +449,7 @@ summary(logit2)
 exp(coef(logit2))     ### Odds ratio
 exp(confint(logit2))  ### 95% CI (odds ratio)
 ```
+---
 
 ### Comparison between models
 
@@ -397,6 +473,7 @@ data2 <- within(diabetes1, {
     labels = c("No history of pregnancies", "History of pregnancies"))
 })
 ```
+---
 
 ### Crude Logistic Regression Model
 
@@ -407,13 +484,15 @@ logit3 <- glm(pregnancy.history ~ Age, data = data2,
               family = "binomial"(link = "logit"))
 summary(logit3)
 ```
-
+---
 ### Multivariable logistic regression model
 ```{r, message = FALSE, warning = FALSE}
 logit3 <- glm(pregnancy.history ~ Age + BMI + Glucose + SkinThickness,
               data = data2, family = "binomial"(link = "logit"))
 summary(logit3)
 ```
+
+---
 
 ### Models comparisons
 
