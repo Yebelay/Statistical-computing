@@ -26,8 +26,6 @@ library(pander)
   
    - Output or outcome, Usually denoted as Y
 
----
-
 ### Almost all statistical tests give three important pieces of information
 
 **Test statistic**
@@ -42,7 +40,6 @@ library(pander)
   - Measure of significance for the test statistic
   - Typically, 0.05 is the cutoff value
 
----
 
 ### Hypothesis testing
 
@@ -61,8 +58,6 @@ assumptions about a population parameter to the test.
 - The p-value is the smallest level of significance that would lead to
 rejection of the null hypothesis with the given data
 
----
-
 ### Inferential Statistics:
 
 - Draw conclusions about an entire population from information obtain from sample.
@@ -75,7 +70,6 @@ tests).
 
 - Inferential statistics allow us to determine how likely it is to obtain a set of results from a single sample is known as statistical significance.
 
----
 
 ## T-test
 
@@ -93,7 +87,6 @@ individual, object, or related units.
 evidence that the mean difference between paired observations on a
 particular outcome is significantly different from zero
 
----
 
 ### Inferential Statistics (Analyzing our Data)
 
@@ -109,8 +102,6 @@ particular outcome is significantly different from zero
 
 $$t_{df=N-1} = \frac{\bar{X}-\mu}{\frac{\hat{\sigma}}{\sqrt{N}}}$$
 
----
-
 ### One-sample *t*-tests
 
 * Some of the steps in t test and how this differs from a z-test.
@@ -125,7 +116,6 @@ $$t_{df=N-1} = \frac{\bar{X}-\mu}{\frac{\hat{\sigma}}{\sqrt{N}}}$$
 | Tails | One or two | One or two |
 | Critical value ( $\alpha = .05$ two-tailed) | 1.96 | Depends on DF |
 
----
 
 ### When you assume...
 
@@ -137,8 +127,7 @@ $$t_{df=N-1} = \frac{\bar{X}-\mu}{\frac{\hat{\sigma}}{\sqrt{N}}}$$
 
 **Independence.** Observations in the dataset are not associated with one another. 
    - i.e. collecting a score from Participant A doesn't tell me anything about what Participant B will say. 
-   
----
+
 ### A brief example
 - A random sample data  of 22 students’ weights was taken from student population. 
 - Then  use the following test whether the average weight of student population is different from 140 lb.
@@ -158,7 +147,6 @@ weight <- c(135,119,106,135,180,108,128,160,143,175,170,
             205,195,185,182,150,175,190,180,195,220,235)
 ```
 
----
 #### Hypothesis test for a test of normality
 
 - Null hypothesis: The data is normally distributed. 
@@ -173,8 +161,6 @@ weight <- c(135,119,106,135,180,108,128,160,143,175,170,
 2. Formal Statistical Test(Shapiro-Wilk Test & Kolmogorov-Smirnov Test)
 
 - If the p-value of the test is greater than α = .05, then the data is assumed to be normally distributed.
-
----
 
 The following codes show how to use each of these methods in practice.
 
@@ -206,7 +192,6 @@ qqnorm(weight,
 qqline(weight)
 ```
 ]
----
 
 - Perform a Shapiro-Wilk Test
 
@@ -216,15 +201,12 @@ shapiro.test(weight)
 - The p-value 0.6922 greater than 0.05 which imply that it is acceptable to assume that the weight distribution is normal .
 
 - Therefore, normality can be assumed for this data set and, provided any other test assumptions are satisfied, an appropriate parametric test can be used.
----
 
 ```{r}
 t.test(weight, mu = 140, alternative = "two.sided")
 ```
 
 **Conclusion:** based on one sample test table, we have enough evidence that the weight of student is different from the 140lb at 5/% level of significance (P-value = 0.002<0.05).
-
----
 
 ### Two – sample test.
 - It is used to compare the means between two different sample data. 
@@ -243,7 +225,6 @@ Type A	    Type B
 239	325	  148	213
 254	239	  169	 
 ```
----
 
 - Check the assumption of normality and equality of variance.
 - State the hypothesis?
@@ -260,7 +241,6 @@ twotest <-
                             218, 202, 212,194,325,213,239,NA))
 ```
 
----
 ```{r}
 shapiro.test(twotest$Cholesterol)
 ```
@@ -272,8 +252,6 @@ shapiro.test(twotest$Cholesterol)
 - State the Null and Alternate Hypotheses
    - Ho=There is no difference between Type A and Type B on Cholesterol levels.
    - Ha =There is a difference between Type A and Type B on Cholesterol levels.
-   
----
 
 ```{r}
 t.test(twotest$Cholesterol~twotest$Type)
@@ -282,7 +260,31 @@ t.test(twotest$Cholesterol~twotest$Type)
 
 - The P-value =0.026<0.05, indicates that there is statistically significant difference between the mean of cholesterol level of  the type A  and Type B at 5% level of significance.
 
----
+- t.test saves a lot of information: the difference in means estimate, confidence interval for the difference conf.int, the p-value p.value, etc.
+
+```{r}
+names(t.test(twotest$Cholesterol~twotest$Type))
+```
+
+- We can tidy this object into a data.frame with the tidy function.
+
+```{r}
+tidy(t.test(twotest$Cholesterol~twotest$Type))
+```
+- You can also use the ‘formula’ notation. In this syntax, it is `y ~ x`, where x is a factor with 2 levels or a binary variable and y is a vector of the same length.
+
+### Wilcoxon Rank-Sum Tests
+
+- Nonparametric analogue to the two sample t-test (testing medians or means if symmetric distributions):
+
+```{r}
+wilcox.test(twotest$Cholesterol~twotest$Type)
+```
+
+```{r, eval=FALSE}
+tidy(wilcox.test(twotest$Cholesterol~twotest$Type))
+```
+
 ### Paired-Samples T Test
 
 - The procedure computes the differences between values of the two variables for each case and tests whether the average differs from 0.
@@ -296,7 +298,7 @@ t.test(twotest$Cholesterol~twotest$Type)
 - **Independent Observations:** The scores from before and after the treatment must not be related 
 - **Normal Distribution:** The population of difference scores must be normally distributed.
 
----
+
 ## Example
 
 - Serum Cholesterol Levels  for 12 subject before and after Diet-Exercise program
@@ -317,7 +319,6 @@ Before 	After
 201    	209
 ```
 
----
 
 ### State the Null and Alternate Hypotheses
 
@@ -332,7 +333,6 @@ paired <-
 After=c(200,236,216,233,224,216,296,195,207,247,210,209))
 ```
 
----
 
 ```{r}
 t.test(paired$Before,paired$After, paired = TRUE)
@@ -342,7 +342,17 @@ t.test(paired$Before,paired$After, paired = TRUE)
 
 - **Conclusion:** There is enough evidence that the diet exercise program is  significantly effective in reducing serum cholesterol levels (𝑃<0.05).
 
----
+### Wilcoxon Signed Rank Test
+
+- Nonparametric analogue to the paired t-test (testing medians or means if symmetric distributions):
+
+```{r}
+wilcox.test(paired$Before,paired$After, paired = TRUE)
+```
+```{r, eval=FALSE}
+tidy(wilcox.test(paired$Before,paired$After, paired = TRUE))
+
+```
 
 ## ANOVA Test
 
@@ -356,8 +366,6 @@ t.test(paired$Before,paired$After, paired = TRUE)
 - There are two types of ANOVA
    - One-way ANOVA
    - Two-way ANOVA
-
----
 
 ## One-way ANOVA
 
@@ -373,8 +381,6 @@ t.test(paired$Before,paired$After, paired = TRUE)
 - All populations have the same variance (or standard deviation).
 - The samples are randomly selected and independent of one another.
 
----
-
 #### Test of hypothesis 
 
 $$H_o: \mu_1 = \mu_2 =...=\mu_k$$
@@ -389,7 +395,6 @@ $$H_1: \mu_j \neq, atleast one j \neq 0$$
 
 * defining a new column *weight.loss*, the difference between columns `initial.weight` and `final.weight` of the dataset. 
 
----
 * displaying _weight loss_ per _diet type_ (column `diet.type`) by means of a boxplot.
 
 ```{r message = FALSE, warning = FALSE, echo = TRUE, fig.align='center', fig.dim=c(7,5)} 
@@ -402,7 +407,6 @@ boxplot(weight.loss~diet.type,data=diet,col="light gray",
 abline(h=0,col="blue")
 ```
 
----
 
 ### ANOVA Test
 
@@ -416,7 +420,6 @@ summary(anova1)
 
 - Note that, when the interest lies in the difference between two means, the Fisher's ANOVA (fonction `aov()`) and the Student's t-test (function `t.test()` with argument `var.equal` set to `TRUE`) leads to the same results.
 
----
 - Let check this by comparing the mean weight losses of *Diet A* and *Diet C*.
 
 ```{r message = FALSE, warning = FALSE, echo = TRUE}
@@ -424,7 +427,13 @@ summary(aov(weight.loss~diet.type,data=diet[diet.type!="B",]))
 t.test(weight.loss~diet.type,data=diet[diet.type!="B",],var.equal=T)
 ```
 
----
+### Kruskal Wallis Test
+
+- Nonparametric analog to one-way ANOVA (testing medians or means if symmetric distributions):
+
+```{r}
+kruskal.test(weight.loss~diet.type,data=diet)
+```
 
 ### Mutiple comparisons
 
@@ -438,7 +447,6 @@ t.test(weight.loss~diet.type,data=diet[diet.type!="B",],var.equal=T)
 
 - Tukey’s is the most commonly used post hoc test but check if your discipline uses something else. 
 
----
 Use the command. 
 
 ```{r}
@@ -449,7 +457,6 @@ TukeyHSD(anova1)
 significant difference between diet C and diet A (p = 0.02). 
 
 Use the mean difference between each pair e.g. people on diet C lost on average 1.85 kg more than those on diet A or use individual group means to conclude which diet is best.
----
 
 ### Checking the assumptions for one-way ANOVA
 
@@ -466,7 +473,6 @@ squared) should be similar for all the groups
    - If p - value < 0.05, the results of the ANOVA are less reliable. 
    - The Welch test is more appropriate and can be accessed via `oneway.test(weight.loss~diet.type)` in car package.
 
----
 Produce a histogram of the residuals.
 
 ```{r, fig.align='center', fig.height=6}
@@ -475,14 +481,14 @@ hist(res, main="Histogram of standardised residuals",
      xlab="Standardised residuals")
 ```
 The residuals are normally distributed
----
+
 - The Levene's test for equality of variances is in the additional ‘car’ package.
 ```{r, message=FALSE, warning=FALSE}
 library(car)
 leveneTest(weight.loss~diet.type, data = diet)
 ```
 - As p - value (0.6313) > 0.05, equal variances can be assumed
----
+
 ### Reporting ANOVA
 
 - A one-way ANOVA was conducted to compare the effectiveness of three diets. 
@@ -493,7 +499,6 @@ leveneTest(weight.loss~diet.type, data = diet)
 
 - There was a significant difference between diets A and C (p = 0.019) with people on diet C lost on average 1.85 kg more than those on diet A. - There was also a significant difference between diets B and C difference (p = 0.015) with people on diet C lost on average 1.88 kg more than those on diet B.
 
----
 ## Two-way ANOVA
 
 - Two-way analysis of variance (two-way ANOVA) is an extension of the one-way ANOVA to examine the influence of two different categorical independent variables on one continuous dependent variable. 
@@ -506,7 +511,6 @@ leveneTest(weight.loss~diet.type, data = diet)
    - The effect of sex and race on wages
    - The effects of religion and region on income
 
----
 #### Type of effects and hypotheses
 
 - In two-way ANOVA with two factors (independent variables) A and B, we can test two main effects and one interaction effect:
@@ -518,7 +522,6 @@ leveneTest(weight.loss~diet.type, data = diet)
 - **The interaction effect of A and B:** whether the difference in the population means for difference level of A depends on the level of B or vice visa?
     - **The null hypothesis:** the effect of A or B on the outcome does not depend on B or A.
 
----
 - Always we have to start to test interaction effects.
 
 - Hypothesis test for Interaction: The interaction effect hypotheses are as follows:
@@ -536,7 +539,6 @@ leveneTest(weight.loss~diet.type, data = diet)
    - $𝐻_𝑜:$ Population means are equal across levels of Factor B.
    - $𝐻_1:$ Population means are not equal across levels of Factor B.
 
----
 ### Two-way ANOVA F tests
 
 - Like in one-way ANOVA, F test is used in hypothesis testing. 
@@ -550,8 +552,6 @@ $$SS_T=SS_A+SS_B+SS_{A×B}+SS_W$$
   - $SS_{A×B}$ is the sum of squares attributes to the joint effect of A and B.
   - $SS_W$ or $SS_{within}$ is the residual sum of squares that cannot be explain by A, B or their interaction.
   
----
-
 * perform a two-way ANOVA to assess if the weight loss means are different per levels of the factors _diet_ and/or _gender_.  
 
 ```{r message = FALSE, warning = FALSE, echo = TRUE} 
@@ -564,7 +564,6 @@ summary(anova2)
 ```{r message = FALSE, warning = FALSE, echo = TRUE, eval=FALSE} 
 anova(lm(weight.loss~diet.type*gender,data=diet))
 ```
----
 
 #### Main effect of Diet types
 
@@ -582,7 +581,6 @@ anova(lm(weight.loss~diet.type*gender,data=diet))
 
 - Therefore, one may conclude there is insignificant difference in weight loose between the male and female participants.
 
----
 #### Interaction effect between diet.type and gender
 
 - From the output, the F-statistic for testing the interaction effect diet.type:gender is 3.15. 
@@ -597,7 +595,6 @@ anova(lm(weight.loss~diet.type*gender,data=diet))
 - The samples must be independent.
 - The variances of the populations must be equal.
 - The groups must have the same sample size.
----
 .pull-left[
 ```{r, fig.dim=c(4,4), fig.align='center', eval=FALSE}
 #- Produce a histogram of res.
@@ -636,7 +633,6 @@ leveneTest(weight.loss~gender*diet.type,
 
 The p value is 0.8563 which is greater than 0.05, so equal variances can be assumed.
 
----
 
 #### Treatment Groups
 
@@ -648,12 +644,10 @@ The p value is 0.8563 which is greater than 0.05, so equal variances can be assu
 - The `TukeyHSD(anova2)` command will produce post hoc tests for the main effects and interactions. 
 - Only interpret post hoc tests for the significant factors from the ANOVA. 
 - If the interaction is NOT significant, interpret the post hoc tests for significant main effects but if it is significant, only interpret the interactions post hoc tests.
----
 
 ```{r, message=FALSE, warning=FALSE}
 TukeyHSD(anova2,ordered = T, which = 'diet.type:gender')
 ```
----
 
 - The interaction was significant so the main effects are not interpreted here but if your data does not have a significant interaction, interpret these in the same way as post hoc tests on the one-way ANOVA resource.
 

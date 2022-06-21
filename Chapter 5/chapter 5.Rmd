@@ -27,6 +27,7 @@ knitr::opts_chunk$set(comment = "##")
 library(datasets)
 library(ggplot2)
 library(dplyr)
+library(broom)
 library(pander)
 ```
 
@@ -322,6 +323,33 @@ t.test(twotest$Cholesterol~twotest$Type)
 - From the output, the mean cholesterol level for Type-A is 245.05 and for Type-B is 213.32 
 
 - The P-value =0.026<0.05, indicates that there is statistically significant difference between the mean of cholesterol level of  the type A  and Type B at 5% level of significance.
+---
+- t.test saves a lot of information: the difference in means estimate, confidence interval for the difference conf.int, the p-value p.value, etc.
+
+```{r}
+names(t.test(twotest$Cholesterol~twotest$Type))
+```
+
+---
+- We can tidy this object into a data.frame with the tidy function.
+
+```{r}
+tidy(t.test(twotest$Cholesterol~twotest$Type))
+```
+- You can also use the ‘formula’ notation. In this syntax, it is `y ~ x`, where x is a factor with 2 levels or a binary variable and y is a vector of the same length.
+---
+
+### Wilcoxon Rank-Sum Tests
+
+- Nonparametric analogue to the two sample t-test (testing medians or means if symmetric distributions):
+
+```{r}
+wilcox.test(twotest$Cholesterol~twotest$Type)
+```
+
+```{r, eval=FALSE}
+tidy(wilcox.test(twotest$Cholesterol~twotest$Type))
+```
 
 ---
 ### Paired-Samples T Test
@@ -382,6 +410,19 @@ t.test(paired$Before,paired$After, paired = TRUE)
 - The Paired Samples Test result provides mean difference 20.2 and p-value 0.012. 
 
 - **Conclusion:** There is enough evidence that the diet exercise program is  significantly effective in reducing serum cholesterol levels (𝑃<0.05).
+---
+### Wilcoxon Signed Rank Test
+
+- Nonparametric analogue to the paired t-test (testing medians or means if symmetric distributions):
+
+```{r}
+wilcox.test(paired$Before,paired$After, paired = TRUE)
+```
+```{r, eval=FALSE}
+tidy(wilcox.test(paired$Before,paired$After, paired = TRUE))
+
+```
+
 
 ---
 
@@ -466,7 +507,15 @@ t.test(weight.loss~diet.type,data=diet[diet.type!="B",],var.equal=T)
 ```
 
 ---
+### Kruskal Wallis Test
 
+- Nonparametric analog to one-way ANOVA (testing medians or means if symmetric distributions):
+
+```{r}
+kruskal.test(weight.loss~diet.type,data=diet)
+```
+
+---
 ### Mutiple comparisons
 
 #### Post Hoc Tests
